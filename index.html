@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        TäffäData
+    </title>
+
+    <!-- Meta -->
+    <meta name="theme-color" content="#317EFB" />
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="pwa/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="pwa/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="pwa/icons/favicon-16x16.png">
+    <link rel="shortcut icon" href="pwa/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="pwa/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Library Css -->
+    <link rel="stylesheet" href="core/lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="core/lib/tablesort/css/tablesort.css" />
+
+    <!-- Custom Css -->
+    <link rel="stylesheet" href="core/css/variables.css" />
+    <link rel="stylesheet" href="core/css/main.css" />
+    <link rel="stylesheet" href="core/css/loading-screen.css" />
+    <link rel="stylesheet" href="core/css/bootstrap-extension.css" />
+    <link rel="stylesheet" href="core/css/heading-numbering.css" />
+    <link rel="stylesheet" href="core/css/database.css" />
+    <link rel="stylesheet" href="core/css/plot.css" />
+
+    <!-- Library JS -->
+    <script src="core/lib/vue/vue.min.js"></script>
+    <script src="core/lib/vue-router/vue-router.min.js"></script>
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <script src="upup.min.js"></script>
+    <script>
+        UpUp.start(
+            {
+                'content-url': 'error.html',
+            });
+    </script>
+
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-md navbar-light bg-white topbar mb-4 shadow fixed-top">
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="#/" class="nav-link">
+                    <img src="core/assets/logo.png" style="height: 2rem"/>
+                </a>
+            </div>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon">
+                </span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                <div class="navbar-nav" id="navigation">
+                </div>
+            </div>
+        </div>
+
+    </nav>
+
+    <!-- Loading screen -->
+    <div id="loading-screen" class="loading-screen loading-screen-hide">
+        <div class="container loading-screen-content">
+            <h1>
+                Loading...
+            </h1>
+
+            <div class="loading-animation">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+
+            <div class="v-spacer"></div>
+            <div class="v-spacer"></div>
+
+            <div class="loading-progress-bar">
+                <div id="loading-progress-bar-progress" class="loading-progress-bar-progress">
+                </div>
+                <p class="loading-progress-bar-percentage">
+                </p>
+            </div>
+
+            <div class="v-spacer"></div>
+            <div class="v-spacer"></div>
+
+            <ul id="loading-output" class="loading-output">
+            </ul>
+
+        </div>
+    </div>
+
+    <!-- Vue -->
+    <div id="vue-view" style="height: 6rem;">
+        <router-view></router-view>
+    </div>
+
+    <!-- Content -->
+    <div class="container" id="content">
+
+    </div>
+
+    <!-- Page scroller -->
+    <div style="height: 80vh">
+        <!-- This element usually allows scrolling, even if the content of the page would not be scrollable. -->
+    </div>
+
+    <!-- Library JS -->
+    <div id="external-scripts">
+        <script src="core/lib/jquery/jquery.min.js"></script>
+        <script src="core/lib/bootstrap/js/bootstrap.min.js"></script>
+        <script src="core/lib/showdown/showdown.min.js"></script>
+        <script src="core/lib/plotly/plotly.min.js"></script>
+        <script src="core/lib/math/math.min.js"></script>
+
+        <script src="core/lib/tablesort/tablesort.min.js"></script>
+        <script src="core/lib/tablesort/sorts/tablesort.number.min.js"></script>
+        <script src="core/lib/tablesort/sorts/tablesort.date.min.js"></script>
+
+        <script src="core/lib/jsed/jsed.js"></script>
+        <script src="core/lib/jsed/lib/current-executing-script/current-executing-script.min.js"></script>
+        <script src="core/lib/jsed/lib/papaparse/papaparse.min.js"></script>
+        <script src="core/lib/jsed/lib/zip/zip.js"></script>
+        <script src="core/lib/jsed/lib/zip/inflate.js"></script>
+        <script src="core/lib/jsed/lib/zip/deflate.js"></script>
+        <script>
+            zip.useWebWorkers = false;
+        </script>
+
+    </div>
+
+    <!-- Custom JS -->
+    <div id="internal-scripts">
+        <script src="core/js/css.js"></script>
+        <script src="core/js/application.js"></script>
+        <script src="core/js/worker-api.js"></script>
+        <script src="core/js/loading-screen.js"></script>
+        <script src="core/js/url-generator.js"></script>
+        <script src="core/js/server-url-generator.js"></script>
+        <script src="core/js/request.js"></script>
+        <script src="core/js/urls.js"></script>
+        <script src="core/js/path.js"></script>
+        <script src="core/js/statistics.js"></script>
+        <script src="core/js/plot.js"></script>
+        <script src="core/js/card.js"></script>
+        <script src="core/js/data-handler.js"></script>
+        <script src="core/js/math-operations.js"></script>
+
+
+        <script src="initialization.js"></script>
+    </div>
+
+</body>
+
+</html>

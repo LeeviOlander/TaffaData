@@ -1,0 +1,23 @@
+:root
+{
+	--spacing: 0.5rem;
+
+	--main-bg: white;
+	--main-color: #0D6DEF;
+    --secondary-color: #FF8400;
+	--loading-screen-bg: white;
+
+	--loader-size: 8rem;
+	--loader-padding: 8%;
+	--loader-spacing: 8%;
+	--loader-cell-size: calc((var(--loader-size) - 2 * var(--loader-padding) - 2 * var(--loader-spacing)) / 3);
+
+	--loading-progress-bar-width: 70%;
+	--loading-progress-bar-height: 2rem;
+	--loading-progress-bar-bg: rgba(0, 0, 0, 0.1);
+	--loading-progress-bar-border: thin rgba(0, 0, 0, 0.4) solid;
+
+	--loading-output-height: 8rem;
+	--loading-output-border: thin rgba(0, 0, 0, 0.4) solid;
+
+}

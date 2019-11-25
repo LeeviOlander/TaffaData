@@ -1,0 +1,110 @@
+/* The navbar should appear above all other elements */
+
+.navbar
+{
+	z-index: 10000;
+
+    -webkit-touch-callout: none; 
+    -webkit-user-select: none; 
+    -khtml-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none; 
+}
+
+/* Styling of links in the navigation bar*/
+
+.nav-link
+{
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-light .navbar-nav .show > .nav-link
+{
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.navbar-light .navbar-nav .show > .nav-link:hover
+{
+    color: rgba(0, 0, 0, 0.7);
+}
+
+/* Styling of the logo in the navigation bar*/
+
+.navbar-brand > .nav-link
+{
+    padding-left: 0;
+}
+
+.navbar-brand > .nav-link > img
+{
+    margin-right: 5px;
+}
+
+.navbar-brand > .nav-link:hover > img
+{
+    filter: brightness(80%);
+}
+
+.navbar-collapse
+{
+    margin-top: 1px;
+}
+
+.dropdown-toggle
+{
+    cursor: pointer;
+}
+
+/* Drop down menu extra styling */
+
+.dropdown-menu
+{
+    padding-left: var(--spacing);
+}
+
+@media screen and (max-width: 767px)
+{
+    .dropdown-menu
+    {
+        display: block;
+    }
+}
+
+/* Pagination */
+
+.pagination
+{
+    font-size: 0.8em;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    margin-top: calc(3 * var(--spacing));
+    margin-bottom: calc(3 * var(--spacing));
+
+    -webkit-touch-callout: none; 
+    -webkit-user-select: none; 
+    -khtml-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none; 
+}
+
+.page-link
+{
+    flex: 1;
+
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-item.page-link.active
+{
+    color: white;
+    background: var(--main-color);
+    border-color: var(--main-color);
+}

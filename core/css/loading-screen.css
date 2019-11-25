@@ -1,0 +1,185 @@
+.loading-screen
+{
+	width: 100%;
+	height: 100vh;
+    z-index: 1000;
+
+	position: fixed;
+	display: flex;
+	align-items: center;
+
+	transition: all 0.1s;
+
+	background: var(--loading-screen-bg);
+}
+
+.loading-screen-hide
+{
+	opacity: 0;
+	visibility: hidden;
+
+	transition: all 0.3s 0.5s;
+
+}
+
+.loading-screen-content
+{
+    padding-top: 40px;
+
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+.loading-progress-bar
+{
+	position: relative;
+
+	width: var(--loading-progress-bar-width);
+	height: var(--loading-progress-bar-height);
+
+	background: var(--loading-progress-bar-bg);
+	border: var(--loading-progress-bar-border);
+}
+
+.loading-progress-bar-progress
+{
+	width: 30%;
+	height: 100%;
+
+	background: var(--main-color);
+}
+
+.loading-progress-bar-percentage
+{
+	top: 0;
+	width: 100%;
+	height: 100%;
+	
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.loading-output
+{
+	display: flex;
+	flex-direction: column;
+
+	overflow-y: auto;
+	font-family: Consolas, monospace;
+
+	width: var(--loading-progress-bar-width);
+	height: var(--loading-output-height);
+	max-height: var(--loading-output-height);
+
+	padding: var(--spacing);
+	border: var(--loading-output-border);
+}
+
+.loading-output-item
+{
+	display: flex;
+}
+
+	.loading-output-item > p:first-child
+	{
+		margin-right: var(--spacing);
+		min-width: 3rem;
+	}
+
+.loading-animation
+{
+	display: inline-block;
+	position: relative;
+
+	width: var(--loader-size);
+	height: var(--loader-size);
+}
+
+	.loading-animation div
+	{
+		position: absolute;
+		animation: loading-animation 1.2s ease infinite;
+
+		width: var(--loader-cell-size);
+		height: var(--loader-cell-size);
+		background: var(--main-color);
+	}
+
+		.loading-animation div:nth-child(1)
+		{
+			top: calc(0 * (var(--loader-cell-size) + var(--loader-spacing)) + var(--loader-padding));
+			left: calc(0 * (var(--loader-cell-size) + var(--loader-spacing)) + var(--loader-padding));
+			animation-delay: 0s;
+		}
+
+		.loading-animation div:nth-child(2)
+		{
+			top: calc(0 * (var(--loader-cell-size) + var(--loader-spacing)) + var(--loader-padding));
+			left: calc(1 * (var(--loader-cell-size) + var(--loader-spacing)) + var(--loader-padding));
+			animation-delay: -0.4s;
+		}
+
+		.loading-animation div:nth-child(3)
+		{
+			top: calc(0 * (var(--loader-cell-size) + var(--loader-spacing)) + var(--loader-padding));
+			left: calc(2 * (var(--loader-cell-size) + var(--loader-spacing)) + var(--loader-padding));
+			animation-delay: -0.8s;
+		}
+
+		.loading-animation div:nth-child(4)
+		{
+			top: calc(1 * (var(--loader-cell-size) + var(--loader-spacing)) + var(--loader-padding));
+			left: calc(0 * (var(--loader-cell-size) + var(--loader-spacing)) + var(--loader-padding));
+			animation-delay: -0.4s;
+		}
+
+		.loading-animation div:nth-child(5)
+		{
+			top: calc(1 * (var(--loader-cell-size) + var(--loader-spacing)) + var(--loader-padding));
+			left: calc(1 * (var(--loader-cell-size) + var(--loader-spacing)) + var(--loader-padding));
+			animation-delay: -0.8s;
+		}
+
+		.loading-animation div:nth-child(6)
+		{
+			top: calc(1 * (var(--loader-cell-size) + var(--loader-spacing)) + var(--loader-padding));
+			left: calc(2 * (var(--loader-cell-size) + var(--loader-spacing)) + var(--loader-padding));
+			animation-delay: -1.2s;
+		}
+
+		.loading-animation div:nth-child(7)
+		{
+			top: calc(2 * (var(--loader-cell-size) + var(--loader-spacing)) + var(--loader-padding));
+			left: calc(0 * (var(--loader-cell-size) + var(--loader-spacing)) + var(--loader-padding));
+			animation-delay: -0.8s;
+		}
+
+		.loading-animation div:nth-child(8)
+		{
+			top: calc(2 * (var(--loader-cell-size) + var(--loader-spacing)) + var(--loader-padding));
+			left: calc(1 * (var(--loader-cell-size) + var(--loader-spacing)) + var(--loader-padding));
+			animation-delay: -1.2s;
+		}
+
+		.loading-animation div:nth-child(9)
+		{
+			top: calc(2 * (var(--loader-cell-size) + var(--loader-spacing)) + var(--loader-padding));
+			left: calc(2 * (var(--loader-cell-size) + var(--loader-spacing)) + var(--loader-padding));
+			animation-delay: -1.6s;
+		}
+
+@keyframes loading-animation
+{
+	0%, 100%
+	{
+		opacity: 1;
+	}
+
+	50%
+	{
+		opacity: 0.5;
+	}
+}

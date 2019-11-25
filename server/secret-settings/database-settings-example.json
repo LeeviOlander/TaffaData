@@ -1,0 +1,7 @@
+{
+    "server_name": "URL TO THE DATABASE SERVER HERE",
+    "user_name": "DATABASE USERNAME HERE",
+    "database_name": "DATABASE NAME HERE",
+    "password": "DATABASE USERNAME PASSWORD HERE",
+    "REMOVE ME": "RENAME THIS FILE TO 'database-settings.json' AND REMOVE THE KEY 'REMOVE ME' "
+}

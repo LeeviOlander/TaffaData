@@ -1,0 +1,22 @@
+{
+    "name": "TäffäData",
+    "short_name": "TäffäData",
+    "start_url": "./",
+    "display": "standalone",
+    "background_color": "#FF0000",
+    "description": "A data visualization application for Täffä AB data.",
+    "theme_color": "#FF0000",
+    "icons":
+    [
+        {
+            "src": "pwa/icons/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "pwa/icons/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

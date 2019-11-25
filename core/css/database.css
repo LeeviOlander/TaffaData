@@ -1,0 +1,32 @@
+.database-table-container-container
+{
+}
+
+.database-table-container
+{
+    height: calc(100% - 2 * var(--spacing));
+}
+
+.database-table-container-header
+{
+    font-weight: bold;
+}
+
+.database-table-container-body
+{
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-between;
+}
+
+.database-table-show-data
+{
+    display: block;
+    margin-top: var(--spacing);
+}
+
+.database-table-column-list
+{
+    list-style: none;
+}

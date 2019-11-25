@@ -1,0 +1,10 @@
+RewriteEngine On
+
+#AuthType Basic
+#AuthName "TäffäData"
+#AuthUserFile /var/www/taffa-data/.htpasswd
+#Require valid-user
+
+# Authenticate all requests
+RewriteCond %{REQUEST_URI} !.*index.php$
+RewriteRule ^(.*)$ index.php?resource=$1&%{QUERY_STRING} [L]

@@ -1,0 +1,89 @@
+/* Plotly override */
+
+.modebar-group
+{
+    background: transparent !important;
+}
+
+.modebar-btn .icon path
+{
+    fill: rgba(0, 0, 0, 0.8) !important;
+}
+
+.modebar-btn.active .icon path
+{
+    fill: rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Custom */
+
+.plot-container-plot
+{
+    padding: var(--spacing);
+
+    -webkit-touch-callout: none; 
+    -webkit-user-select: none; 
+    -khtml-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none; 
+}
+
+.plot-container-header
+{
+    display: flex;
+    align-items: stretch;
+    flex-wrap: wrap;
+}
+
+.plot-heading
+{
+    width: 100%;
+}
+
+.plot-input-container
+{
+    max-width: 100%;
+ 
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+
+    margin-top: calc(0.5 * var(--spacing));
+    margin-bottom: calc(0.5 * var(--spacing));
+}
+
+.plot-label
+{
+    width: auto;
+    margin: 0;
+    margin-left: var(--spacing);
+    margin-right: var(--spacing);
+
+    display: inline;
+}
+
+.plot-input
+{
+    flex-grow: 1;
+    min-width: 0;
+    max-width: 100%;
+
+    width: auto;
+    overflow: hidden;
+}
+
+.plot-button
+{
+    flex-grow: 1;
+
+    width: auto;
+    display: inline;
+
+    vertical-align: initial !important;
+    
+    margin-top: calc(0.5 * var(--spacing));
+    margin-bottom: calc(0.5 * var(--spacing));
+    margin-left: var(--spacing);
+}
+

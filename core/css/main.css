@@ -1,0 +1,75 @@
+body
+{
+	background: white;
+	overflow-y: scroll;
+}
+
+p, ul
+{
+	margin: 0;
+	padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6
+{
+    word-break: break-word;
+}
+
+select
+{
+    max-width: 100%;
+}
+
+.v-spacer
+{
+	width: 100%;
+	height: var(--spacing);
+}
+
+.nav-link:target,
+.nav-active
+{
+    color: var(--main-color) !important;
+}
+
+    .nav-link:target,
+    .nav-active:hover
+    {
+        filter: brightness(80%);
+    }
+
+.dropdown-active > .nav-link
+{
+    color: var(--secondary-color) !important;
+}
+
+.dropdown-active > .nav-link:hover
+{
+    filter: brightness(80%);
+}
+
+.no-margin
+{
+    margin: 0;
+}
+
+.no-padding
+{
+    padding: 0;
+}
+
+select.h2-like-select
+{
+    font-size: 2rem;
+    font-weight: 500;
+    background: #F0F1F2;
+    color: var(--main-color) !important;
+
+    margin-bottom: var(--spacing);
+}
+
+.h2-like-select > option
+{
+    font-size: 1rem;
+    color: initial;
+}
