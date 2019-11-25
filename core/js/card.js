@@ -7,17 +7,17 @@ class Card
 
 		var cardElement = document.createElement('div');
 		cardElement.id = cardId;
-		cardElement.className = Css.plotContainerClassNames;
+		cardElement.className = Css.cardContainerClassNames;
 
 		var cardHeaderElement = document.createElement('div');
-		cardHeaderElement.className = Css.plotContainerHeaderClassNames;
+		cardHeaderElement.className = Css.cardContainerHeaderClassNames;
 
 		var cardHeadingElement = document.createElement('h2');
-		cardHeadingElement.className = Css.plotContainerHeaderHeadingClassNames;
+		cardHeadingElement.className = Css.cardContainerHeaderHeadingClassNames;
 		cardHeadingElement.innerHTML = title;
 
 		var cardBodyElement = document.createElement('div');
-		cardBodyElement.className = Css.plotContainerBodyClassNames;
+		cardBodyElement.className = Css.cardContainerBodyClassNames;
 
 		var cardContentElement = document.createElement('div');
 		cardContentElement.id = contentId;
@@ -67,12 +67,8 @@ class Card
 				inputElement = input;
 			}
 
-			var inputLabelElement = document.createElement('label');
-			inputLabelElement.className = Css.plotContainerLabelClassNames;
-			inputLabelElement.innerHTML = inputElement.dataset.label;
-
 			inputElement.id = containerElementId.replace(' ', '') + '-' + inputElement.name;
-			inputElement.className = Css.plotContainerInputClassNames;
+			inputElement.className = Css.cardContainerInputClassNames;
 			inputElement.onkeyup = function (e)
 			{
 				if (e.key == "Enter")
@@ -80,6 +76,12 @@ class Card
 					regenerateContentFunction();
 				}
 			};
+
+			var inputLabelElement = document.createElement('label');
+			inputLabelElement.className = Css.cardContainerLabelClassNames;
+			inputLabelElement.innerHTML = inputElement.dataset.label;
+			inputLabelElement.htmlFor = inputElement.id;
+			
 
 			if (!(inputElement.name in parameterValues))
 			{
@@ -91,10 +93,22 @@ class Card
 			}
 
 			var inputContainerElement = document.createElement('div');
-			inputContainerElement.className = Css.plotContainerInputContainerClassNames;
 
-			inputContainerElement.appendChild(inputLabelElement);
-			inputContainerElement.appendChild(inputElement);
+			if (inputElement.type == 'checkbox')
+			{
+				inputContainerElement.className = Css.cardContainerCheckboxContainerClassNames;
+
+				inputContainerElement.appendChild(inputElement);
+				inputContainerElement.appendChild(inputLabelElement);
+			}
+			else
+			{
+				inputContainerElement.className = Css.cardContainerInputContainerClassNames;
+
+				inputContainerElement.appendChild(inputLabelElement);
+				inputContainerElement.appendChild(inputElement);
+			}
+
 
 			headerElements.push(inputContainerElement);
 
@@ -103,7 +117,7 @@ class Card
 
 		// Create an OK button that triggers re-render and append to containerElement
 		var okButtonElement = document.createElement('button');
-		okButtonElement.className = Css.plotContainerButtonClassNames;
+		okButtonElement.className = Css.cardContainerButtonClassNames;
 		okButtonElement.innerHTML = 'OK';
 
 		headerElements.push(okButtonElement);

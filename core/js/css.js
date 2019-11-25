@@ -34,18 +34,19 @@ Css.paginationJumperInputElementClassNames = 'form-control';
 Css.paginationJumperInputAppendElementClassNames = 'input-group-append';
 Css.paginationJumperButtonClassNames = 'btn btn-primary';
 
-Css.plotContainerClassNames = 'card bg-light mb-3';
-Css.plotContainerHeaderClassNames = 'plot-container-header card-header';
-Css.plotContainerHeaderHeadingClassNames = 'plot-heading nocount no-margin no-padding';
-Css.plotContainerBodyClassNames = 'plot-container-plot';
-Css.plotContainerLabelClassNames = 'plot-label';
-Css.plotContainerInputClassNames = 'plot-input form-control';
-Css.plotContainerInputContainerClassNames = 'plot-input-container';
-Css.plotContainerButtonClassNames = 'plot-button btn btn-primary';
+Css.cardContainerClassNames = 'card bg-light mb-3';
+Css.cardContainerHeaderClassNames = 'card-container-header card-header';
+Css.cardContainerHeaderHeadingClassNames = 'card-heading nocount no-margin no-padding';
+Css.cardContainerBodyClassNames = 'card-container-card';
+Css.cardContainerLabelClassNames = 'card-label';
+Css.cardContainerInputClassNames = 'card-input form-control';
+Css.cardContainerInputContainerClassNames = 'card-input-container';
+Css.cardContainerCheckboxContainerClassNames = 'card-checkbox-container';
+Css.cardContainerButtonClassNames = 'card-button btn btn-primary';
 
 Css.selectClassNames = 'h2-like-select form-control';
 
-Css.overviewTableContainerClassNames = 'table-responsive card bg-light mb-3';
+Css.overviewTableContainerClassNames = 'table-responsive';
 Css.overviewTableHeaderClassNames = 'card-header';
 Css.overviewTableHeaderHeadingClassNames = 'nocount no-margin no-padding';
 Css.overviewTableClassNames = 'table table-sm table-hover card-body';

@@ -16,8 +16,8 @@ Urls.databaseTableDataViewUrlBase = '/data/database-table-data';
 // pulled.
 //                  NAME                URL                 FILE
 application.addPage('Home',				'/',				'views/home.js');
-application.addPage('Products',			'/products',		'views/products.js');
-application.addPage('Categories',       '/categories',		'views/categories.js');
+application.addPage('Products',			'/products',		'views/items.js');
+application.addPage('Categories',       '/categories',		'views/items.js');
 
 var dataDropDown = application.addDropDown('Data', '/data');
 application.addPage('Database Tables', '/data/database-tables', 'views/data/database-tables.js', dataDropDown);

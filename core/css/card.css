@@ -1,0 +1,80 @@
+/* Custom */
+
+.card-container-card
+{
+    padding: var(--spacing);
+
+    -webkit-touch-callout: none; 
+    -webkit-user-select: none; 
+    -khtml-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none; 
+}
+
+.card-container-header
+{
+    display: flex;
+    align-items: stretch;
+    flex-wrap: wrap;
+}
+
+.card-heading
+{
+    width: 100%;
+}
+
+.card-checkbox-container
+{
+}
+
+    .card-checkbox-container > input
+    {
+        display: inline;
+    }
+
+.card-input-container
+{
+    max-width: 100%;
+ 
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+
+    margin-top: calc(0.5 * var(--spacing));
+    margin-bottom: calc(0.5 * var(--spacing));
+}
+
+.card-label
+{
+    width: auto;
+    margin: 0;
+    margin-left: var(--spacing);
+    margin-right: var(--spacing);
+
+    display: inline;
+}
+
+.card-input
+{
+    flex-grow: 1;
+    min-width: 0;
+    max-width: 100%;
+
+    width: auto;
+    overflow: hidden;
+}
+
+.card-button
+{
+    flex-grow: 1;
+
+    width: auto;
+    display: inline;
+
+    vertical-align: initial !important;
+    
+    margin-top: calc(0.5 * var(--spacing));
+    margin-bottom: calc(0.5 * var(--spacing));
+    margin-left: var(--spacing);
+}

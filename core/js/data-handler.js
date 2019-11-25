@@ -66,15 +66,12 @@ class DataHandler
 			if (!(category in sumByDateGroupedByCategory))
 			{
 				sumByDateGroupedByCategory[category] = {};
-				sumByDateGroupedByCategory[category]['random'] = 0;
+				sumByDateGroupedByCategory[category][DataHandler.zeroFixKey] = 0;
 			}
-		}
-
-		if (Object.keys(sumByDateGroupedByCategory[totalCategory]).length == 0)
-		{
-			sumByDateGroupedByCategory[totalCategory]['random'] = 0;
 		}
 
 		return sumByDateGroupedByCategory;
 	}
 }
+
+DataHandler.zeroFixKey = 'fix';
