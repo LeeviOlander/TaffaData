@@ -73,3 +73,9 @@ select.h2-like-select
     font-size: 1rem;
     color: initial;
 }
+
+.overview-item-table tr td:nth-child(n+5),
+.overview-item-table tr th:nth-child(n+5)
+{
+    text-align: right;
+}

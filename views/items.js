@@ -627,6 +627,10 @@ function getOverviewItemTable(params)
 		var getParams = {};
 		getParams[selectedGetParameter] = itemJsedResultName;
 
+		var trendTotal = math.round(Statistics.linearRegression(amountTotalValues).slope, 2);
+		var trendStudents = math.round(Statistics.linearRegression(amountStudentValues).slope, 2);
+		var trendNonStudents = math.round(Statistics.linearRegression(amountNonStudentValues).slope, 2);
+
 		var tableRowInnerHtml =
 		`
             <td>
@@ -644,22 +648,22 @@ function getOverviewItemTable(params)
                 ${totalDates[totalDates.length - 1]}
             </td>
             <td>
-                ${math.round(math.min(amountTotalValues), 2)}
+                ${getOverviewItemTableFormattedNumber(math.min(amountTotalValues))}
             </td>
             <td>
-                ${math.round(math.max(amountTotalValues), 2)}
+                ${getOverviewItemTableFormattedNumber(math.max(amountTotalValues))}
             </td>
             <td>
-                ${math.round(math.mean(amountTotalValues), 2)}
+                ${getOverviewItemTableFormattedNumber(math.mean(amountTotalValues))}
             </td>
-            <td>
-                ${math.round(Statistics.linearRegression(amountTotalValues).slope, 2)}
+            <td ${getOverviewItemTableTrendStyle(trendTotal)}>
+                ${getOverviewItemTableFormattedNumber(trendTotal)}
             </td>
-            <td>
-                ${math.round(Statistics.linearRegression(amountStudentValues).slope, 2)}
+            <td ${getOverviewItemTableTrendStyle(trendStudents)}>
+                ${getOverviewItemTableFormattedNumber(trendStudents)}
             </td>
-            <td>
-                ${math.round(Statistics.linearRegression(amountNonStudentValues).slope, 2)}
+            <td ${getOverviewItemTableTrendStyle(trendNonStudents)}>
+                ${getOverviewItemTableFormattedNumber(trendNonStudents)}
             </td>
         `;
 
@@ -675,6 +679,27 @@ function getOverviewItemTable(params)
 	itemTableContainer.appendChild(itemTable);
 
 	return itemTableContainer;
+}
+
+function getOverviewItemTableFormattedNumber(number)
+{
+	return parseFloat(Math.round(number * 100) / 100).toFixed(2);
+}
+
+function getOverviewItemTableTrendStyle(trendValue)
+{
+	if (trendValue < 0)
+	{
+		return 'style="background: rgba(255, 0, 0, 0.4);"';
+	}
+	else if (trendValue > 0)
+	{
+		return 'style="background: rgba(0, 255, 0, 0.4);"';
+	}
+	else
+	{
+		return 'style="background: rgba(255, 255, 0, 0.4);"';
+	}
 }
 
 function onOverviewItemTableCheckboxChange(checkbox)

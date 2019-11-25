@@ -49,4 +49,4 @@ Css.selectClassNames = 'h2-like-select form-control';
 Css.overviewTableContainerClassNames = 'table-responsive';
 Css.overviewTableHeaderClassNames = 'card-header';
 Css.overviewTableHeaderHeadingClassNames = 'nocount no-margin no-padding';
-Css.overviewTableClassNames = 'table table-sm table-hover card-body';
+Css.overviewTableClassNames = 'table table-sm table-hover card-body overview-item-table';
