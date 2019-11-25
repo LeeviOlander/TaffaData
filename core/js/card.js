@@ -47,6 +47,36 @@ class Card
 		var headerElements = [];
 		var parameterInputElements = [];
 
+		// Create a function that regenerates the data
+		var regenerateContentFunction = function ()
+		{
+			var activeElement = document.activeElement;
+			var activeElementId = null;
+
+			if (activeElement != null)
+			{
+				activeElementId = activeElement.id;
+			}
+
+			// Extract new parameter values
+			var newParameterValues = {};
+			for (var i = 0; i < parameterInputElements.length; i++)
+			{
+				var inputElement = parameterInputElements[i];
+
+				newParameterValues[inputElement.name] = inputElement.value;
+			}
+
+			Card.generateCardWithParameters(containerElementId, title, parameterInputs, setContentCallback, newParameterValues);
+
+			activeElement = document.getElementById(activeElementId);
+
+			if (activeElement != null)
+			{
+				activeElement.focus();
+			}
+		};
+
 		// Convert parameterInputs to elements and append to containerElement
 		for (var i = 0; i < parameterInputs.length; i++)
 		{
@@ -60,7 +90,7 @@ class Card
 
 				temp.innerHTML = input;
 
-				inputElement = temp.firstChild;
+				inputElement = temp.firstElementChild;
 			}
 			else
 			{
@@ -76,6 +106,12 @@ class Card
 					regenerateContentFunction();
 				}
 			};
+
+
+			if (inputElement.tagName == 'SELECT')
+			{
+				inputElement.onchange = regenerateContentFunction;
+			}
 
 			var inputLabelElement = document.createElement('label');
 			inputLabelElement.className = Css.cardContainerLabelClassNames;
@@ -122,35 +158,7 @@ class Card
 
 		headerElements.push(okButtonElement);
 
-		// Create a function that regenerates the data
-		var regenerateContentFunction = function ()
-		{
-			var activeElement = document.activeElement;
-			var activeElementId = null;
-
-			if (activeElement != null)
-			{
-				activeElementId = activeElement.id;
-			}
-
-			// Extract new parameter values
-			var newParameterValues = {};
-			for (var i = 0; i < parameterInputElements.length; i++)
-			{
-				var inputElement = parameterInputElements[i];
-
-				newParameterValues[inputElement.name] = inputElement.value;
-			}
-
-			Card.generateCardWithParameters(containerElementId, title, parameterInputs, setContentCallback, newParameterValues);
-
-			activeElement = document.getElementById(activeElementId);
-
-			if (activeElement != null)
-			{
-				activeElement.focus();
-			}
-		};
+		
 
 		okButtonElement.onclick = regenerateContentFunction;
 

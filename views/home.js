@@ -86,9 +86,14 @@ function renderOverview()
 
 		var parameterInputs = [];
 		parameterInputs.push(`<input name="maSpan" type="number" data-label="Ma Span:" value="30">`);
+		parameterInputs.push(unitSelectHtml);
 
 		Plot.plotCardWithParameters(overviewPlotId, 'Sales by Category', getOverviewData, salesLayoutOptions, {}, parameterInputs);
-		Plot.plotCardWithParameters(overviewitemTableContainerId, 'Pebbles Feedback', getPebblesFeedbackData, feedbackLayoutOptions, {}, parameterInputs);
+
+		var feedbackParameterInputs = [];
+		feedbackParameterInputs.push(`<input name="maSpan" type="number" data-label="Ma Span:" value="30">`);
+
+		Plot.plotCardWithParameters(overviewitemTableContainerId, 'Pebbles Feedback', getPebblesFeedbackData, feedbackLayoutOptions, {}, feedbackParameterInputs);
 
 		application.loadingScreen.reportProgress(progressAfterRender, 'Rendering completed');
 		application.loadingScreen.hideLoadingScreen();
@@ -139,6 +144,7 @@ function loadOverviewData(onComplete)
 
 function getOverviewData(params)
 {
+	var unit = params.unit;
 	var maSpan = params.maSpan;
 
 	var traces = [];
@@ -148,7 +154,7 @@ function getOverviewData(params)
 		var categoryJsedResult = categoryDataJsedResultsByName[categoryJsedResultName];
 		var categoryData = categoryJsedResult.getAny().data;
 
-		var amountSoldByDateGroupedByCategory = DataHandler.getSumByDateGroupedByCategory(categoryData, ['Students', 'Non students'], 'amount_sold', 'customer_category');
+		var amountSoldByDateGroupedByCategory = DataHandler.getSumByDateGroupedByCategory(categoryData, ['Students', 'Non students'], unit, 'customer_category');
 
 		var amountTotalDates = Object.keys(amountSoldByDateGroupedByCategory['Total']);
 		var amountStudentDates = Object.keys(amountSoldByDateGroupedByCategory['Students']);

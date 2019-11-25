@@ -6,6 +6,18 @@ var loadingElement = document.getElementById('loading-screen');
 var loadingProgressBarProgressElement = document.getElementById('loading-progress-bar-progress');
 var loadingOutputElement = document.getElementById('loading-output');
 
+var unitSelectHtml =
+`
+    <select name="unit" data-label="Unit: ">
+        <option value="quantity_sold">
+            Quantity
+        </option>
+        <option value="revenue">
+            Revenue (€)
+        </option>
+    </select>
+`;
+
 var application = new Application();
 
 Urls.databaseTableDataViewUrlBase = '/data/database-table-data';

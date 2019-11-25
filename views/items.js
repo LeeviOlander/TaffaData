@@ -42,7 +42,7 @@ var checkedItemNames = {};
 // Layouts
 
 var overviewLayout =
-	`
+`
     <div class="row">
         <div class="col-12" id="${overviewPlotId}">
         </div>
@@ -54,7 +54,7 @@ var overviewLayout =
 `;
 
 var itemLayout =
-	`
+`
    <div class="row">
         <div class="col-12" id="${itemSalesPlotId}">
         </div>
@@ -62,6 +62,7 @@ var itemLayout =
         </div>
     </div> 
 `;
+
 
 
 // Navigation
@@ -152,8 +153,10 @@ function renderItem()
 
 	selectedItemDataJsedResult = itemDataJsedResultsByName[selectedItemName];
 
+	
 	var parameterInputs = [];
 	parameterInputs.push(`<input name="maSpan" type="number" data-label="MA Span:" value="30">`);
+	parameterInputs.push(unitSelectHtml);
 
 	Plot.plotCardWithParameters(itemSalesPlotId, 'Sales', getItemSalesData, {}, {}, parameterInputs);
 
@@ -161,6 +164,7 @@ function renderItem()
 	histogramParameterInputs.push(`<input name="bins" type="number" data-label="Bins:" value="100">`);
 	histogramParameterInputs.push(`<input name="startDate" type="date" data-label="Start Date:" value="2000-01-01"  style="width: 7rem">`);
 	histogramParameterInputs.push(`<input name="endDate" type="date" data-label="End Date:" value="${new Date().toJSON().slice(0, 10)}" style="width: 7rem">`);
+	histogramParameterInputs.push(unitSelectHtml);
 
 	Plot.plotCardWithParameters(itemSalesHistogramPlotId, 'Distribution of Sales', getItemSalesHistogramData, {}, {}, histogramParameterInputs);
 
@@ -187,14 +191,14 @@ function renderOverview()
 			{
 				title:
 				{
-					text: 'STD of Sales'
+					text: 'STD'
 				},
 			},
 			yaxis:
 			{
 				title:
 				{
-					text: 'Mean of Sales'
+					text: 'Mean'
 				}
 			}
 		};
@@ -216,6 +220,7 @@ function renderOverview()
 		parameterInputs.push(`<input name="minTimesServed" type="number" data-label="Min Times Served:" value="10" style="width: 4rem">`);
 		parameterInputs.push(`<input name="startDate" type="date" data-label="Start Date:" value="2000-01-01"  style="width: 7rem">`);
 		parameterInputs.push(`<input name="endDate" type="date" data-label="End Date:" value="${new Date().toJSON().slice(0, 10)}" style="width: 7rem">`);
+		parameterInputs.push(unitSelectHtml);
 
 		Plot.plotCardWithParameters(overviewPlotId, 'Mean & Standard Deviation of Sales', getOverviewMeanStdData, meanStdLayoutOptions, {}, parameterInputs);
 
@@ -229,6 +234,7 @@ function renderOverview()
 
 		var cumulativeSalesParameterInputs = [];
 		cumulativeSalesParameterInputs.push(`<input name="maSpan" type="number" data-label="MA Span:" value="30">`);
+		cumulativeSalesParameterInputs.push(unitSelectHtml);
 
 		Plot.plotCardWithParameters(overviewCumulativePlotId, 'Cumulative Sales (CS)', getOverviewCumulativeData, cumulativeSalesLayoutOptions, {}, cumulativeSalesParameterInputs);
 
@@ -281,11 +287,11 @@ function loadOverviewData(onComplete)
 
 function getItemSalesData(params)
 {
+	var unit = params.unit;
 	var maSpan = params.maSpan;
 
 	var itemData = selectedItemDataJsedResult.getAny().data;
-
-	var amountSoldByDateGroupedByItem = DataHandler.getSumByDateGroupedByCategory(itemData, ['Students', 'Non students'], 'amount_sold', 'customer_category');
+	var amountSoldByDateGroupedByItem = DataHandler.getSumByDateGroupedByCategory(itemData, ['Students', 'Non students'], unit, 'customer_category');
 
 	var datesTotal = Object.keys(amountSoldByDateGroupedByItem['Total']);
 	var datesStudents = Object.keys(amountSoldByDateGroupedByItem['Students']);
@@ -330,13 +336,14 @@ function getItemSalesData(params)
 
 function getItemSalesHistogramData(params)
 {
+	var unit = params.unit;
 	var bins = params.bins;
 	var startDate = params.startDate;
 	var endDate = params.endDate;
 
 	var itemData = selectedItemDataJsedResult.getAny().data;
 
-	var amountSoldByDateGroupedByItem = DataHandler.getSumByDateGroupedByCategory(itemData, ['Students', 'Non students'], 'amount_sold', 'customer_category', startDate, endDate);
+	var amountSoldByDateGroupedByItem = DataHandler.getSumByDateGroupedByCategory(itemData, ['Students', 'Non students'], unit, 'customer_category', startDate, endDate);
 
 	var amountTotalValues = Object.values(amountSoldByDateGroupedByItem['Total']);
 	var amountStudentValues = Object.values(amountSoldByDateGroupedByItem['Students']);
@@ -398,6 +405,7 @@ function getItemSalesHistogramData(params)
 
 function getOverviewMeanStdData(params)
 {
+	var unit = params.unit;
 	var minTimesServed = params.minTimesServed;
 	var startDate = params.startDate;
 	var endDate = params.endDate;
@@ -418,7 +426,7 @@ function getOverviewMeanStdData(params)
 		var itemJsedResult = itemDataJsedResultsByName[itemJsedResultName];
 		var itemData = itemJsedResult.getAny().data;
 
-		var amountSoldByDateGroupedByItem = DataHandler.getSumByDateGroupedByCategory(itemData, ['Students', 'Non students'], 'amount_sold', 'customer_category', startDate, endDate);
+		var amountSoldByDateGroupedByItem = DataHandler.getSumByDateGroupedByCategory(itemData, ['Students', 'Non students'], unit, 'customer_category', startDate, endDate);
 
 		var amountTotalValues = Object.values(amountSoldByDateGroupedByItem['Total']);
 		var amountStudentValues = Object.values(amountSoldByDateGroupedByItem['Students']);
@@ -482,6 +490,7 @@ function getOverviewMeanStdData(params)
 
 function getOverviewCumulativeData(params)
 {
+	var unit = params.unit;
 	var maSpan = params.maSpan;
 
 	var cumSalesItemDataTotal = [];
@@ -497,7 +506,7 @@ function getOverviewCumulativeData(params)
 		if (checkbox.checked)
 		{
 			var data = itemDataJsedResultsByName[checkbox.name].getAny().data;
-			var amountSoldByDateGroupedByCategory = DataHandler.getSumByDateGroupedByCategory(data, ['Students', 'Non students'], 'amount_sold', 'customer_category');
+			var amountSoldByDateGroupedByCategory = DataHandler.getSumByDateGroupedByCategory(data, ['Students', 'Non students'], unit, 'customer_category');
 
 			cumSalesItemDataTotal.push(amountSoldByDateGroupedByCategory['Total']);
 			cumSalesItemDataStudents.push(amountSoldByDateGroupedByCategory['Students']);
@@ -521,7 +530,7 @@ function getOverviewCumulativeData(params)
 		x: Object.keys(sumByDateStudents),
 		y: Statistics.movingAverage(Object.values(sumByDateStudents), maSpan),
 		type: 'scatter',
-		name: 'Total'
+		name: 'Students'
 	};
 
 	var traceNonStudents =
@@ -529,7 +538,7 @@ function getOverviewCumulativeData(params)
 		x: Object.keys(sumByDateNonStudents),
 		y: Statistics.movingAverage(Object.values(sumByDateNonStudents), maSpan),
 		type: 'scatter',
-		name: 'Total'
+		name: 'Non students'
 	};
 
 	return [traceTotal, traceStudents, traceNonStudents];
@@ -539,6 +548,7 @@ function getOverviewCumulativeData(params)
 
 function getOverviewItemTable(params)
 {
+	var unit = params.unit;
 	var minTimesServed = math.max(params.minTimesServed, 1);
 	var startDate = params.startDate;
 	var endDate = params.endDate;
@@ -567,13 +577,13 @@ function getOverviewItemTable(params)
                     Last Served
                 </th>
                 <th>
-                    Min Sold
+                    Min
                 </th>
                 <th>
-                    Max Sold
+                    Max
                 </th>
                 <th>
-                    Mean Amount Sold
+                    Mean
                 </th>
                 <th>
                     Total Trend
@@ -596,7 +606,7 @@ function getOverviewItemTable(params)
 		var itemJsedResult = itemDataJsedResultsByName[itemJsedResultName];
 		var itemData = itemJsedResult.getAny().data;
 
-		var amountSoldByDateGroupedByItem = DataHandler.getSumByDateGroupedByCategory(itemData, ['Students', 'Non students'], 'amount_sold', 'customer_category', startDate, endDate);
+		var amountSoldByDateGroupedByItem = DataHandler.getSumByDateGroupedByCategory(itemData, ['Students', 'Non students'], unit, 'customer_category', startDate, endDate);
 
 		var totalDates = Object.keys(amountSoldByDateGroupedByItem['Total']);
 
