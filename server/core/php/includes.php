@@ -11,6 +11,8 @@
     include_once(SERVER_CORE_DIR . '/php/data-container.php');
     include_once(SERVER_CORE_DIR . '/php/jsed.php');
     include_once(SERVER_CORE_DIR . '/php/jsed-input-data.php');
+    include_once(SERVER_CORE_DIR . '/php/session.php');
+    include_once(SERVER_CORE_DIR . '/php/authentication.php');
 
 
 ?>

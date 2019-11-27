@@ -32,6 +32,7 @@ application.addPage('Products',			'/products',		'views/items.js');
 application.addPage('Categories',       '/categories',		'views/items.js');
 
 var dataDropDown = application.addDropDown('Data', '/data');
+application.addPage('Data State', '/data/data-state', 'views/data/data-state.js', dataDropDown);
 application.addPage('Database Tables', '/data/database-tables', 'views/data/database-tables.js', dataDropDown);
 application.addPage('Database Table Data', Urls.databaseTableDataViewUrlBase, 'views/data/database-table-data.js', dataDropDown, true);
 

@@ -32,7 +32,7 @@ select
     color: var(--main-color) !important;
 }
 
-    .nav-link:target,
+    .nav-link:target:hover,
     .nav-active:hover
     {
         filter: brightness(80%);

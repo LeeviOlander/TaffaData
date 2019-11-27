@@ -9,6 +9,7 @@ Css.dropDownMenuClassName = 'dropdown-menu';
 Css.dropDownToggleClassName = 'dropdown-toggle';
 Css.dropDownActiveClassName = 'dropdown-active';
 
+Css.primaryButtonClassNames = 'btn btn-primary';
 Css.responsiveTableContainerClassNames = 'table-responsive';
 
 Css.loadingScreenHideClassName = 'loading-screen-hide';

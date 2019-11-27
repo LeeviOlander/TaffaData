@@ -53,3 +53,28 @@ Math.sumByKey = function (associativeArrays)
 	return result;
 
 };
+
+Math.cumSum = function(array)
+{
+	var cumSum = [];
+	array.reduce(function (a, b, i) { return cumSum[i] = a + b; }, 0);
+
+	return cumSum;
+}
+
+Math.trimStart = function (associativeArray, valueToTrim = 0)
+{
+	var result = {};
+	var nonZeroFound = false;
+	for (var key in associativeArray)
+	{
+		var val = associativeArray[key];
+
+		if (nonZeroFound || val != valueToTrim)
+		{
+			result[key] = val;
+		}
+	}
+
+	return result;
+}

@@ -7,18 +7,21 @@
             return self::is_localhost_authenticated() || self::is_tf_authenticated(); 
         }
 
-        public static function redirect_to_authentication()
+        public static function redirect_to_authentication($requested_resource)
         {
-            header('Location: ' . 'https://taffadata.tf.fi');
+            include_once(SERVER_DIR . '/login.php');
+            exit();
         }
 
         public static function send_file($file_path)
         {
+            $file_modified_time = filemtime($file_path);
             $file_extension = pathinfo($file_path, PATHINFO_EXTENSION);
 
             $mime_types = self::get_mime_types();
 
             $mime_type = '';
+            $headers = self::get_request_headers();
 
             if(isset($mime_types[$file_extension]))
             {
@@ -29,21 +32,48 @@
                 $mime_type = $mime_types['text'];
             }
 
-
-            header('Content-Type: ' . $mime_type);
-            readfile($file_path);
+            if(isset($headers['If-Modified-Since']) && strtotime(isset($headers['If-Modified-Since'])) == $file_modified_time)
+            {
+                header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $file_modified_time) . ' GMT', true, 304);
+            }
+            else
+            {
+                header('Content-Type: ' . $mime_type);
+                header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $file_modified_time) . ' GMT', true, 200);
+                readfile($file_path);
+            }
         }
 
         private static function is_tf_authenticated()
         {
-            return true;
+            return Session::is_signed_in();
         }
 
         private static function is_localhost_authenticated()
         {
+            return false;
             $whitelist = array('127.0.0.1', '::1');
 
             return in_array($_SERVER['REMOTE_ADDR'], $whitelist);
+        }
+
+        private static function get_request_headers()
+        {
+            if (function_exists("apache_request_headers")) 
+            { 
+                if($headers = apache_request_headers()) 
+                { 
+                    return $headers; 
+                } 
+            } 
+
+            $headers = array(); 
+            // Grab the IF_MODIFIED_SINCE header 
+            if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) 
+            { 
+                $headers['If-Modified-Since'] = $_SERVER['HTTP_IF_MODIFIED_SINCE']; 
+            } 
+            return $headers; 
         }
 
         private static function get_mime_types()

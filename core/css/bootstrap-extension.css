@@ -2,7 +2,7 @@
 
 .navbar
 {
-	z-index: 10000;
+	z-index: 100;
 
     -webkit-touch-callout: none; 
     -webkit-user-select: none; 

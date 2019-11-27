@@ -13,6 +13,8 @@ var overviewString = 'Overview';
 var selectedGetParameter = 'selected';
 var categorySelectElementId = 'category-select';
 
+var revenuePlotId = 'revenue';
+var revenueCumulativeSumPlotId = 'cumulative-revenue';
 var overviewPlotId = 'overview-data';
 var overviewitemTableContainerId = 'overview-feedback';
 
@@ -28,6 +30,10 @@ var selectedCategoryDataJsedResult = null;
 var overviewLayout =
 	`
     <div class="row">
+        <div class="col-12" id="${revenuePlotId}">
+        </div>
+        <div class="col-12" id="${revenueCumulativeSumPlotId}">
+        </div>
         <div class="col-12" id="${overviewPlotId}">
         </div>
         <div class="col-12" id="${overviewitemTableContainerId}">
@@ -62,17 +68,6 @@ function renderOverview()
 
 		application.setContentElement(contentElement, false);
 
-		var salesLayoutOptions =
-		{
-			yaxis:
-			{
-				title:
-				{
-					text: 'Amount Sold'
-				}
-			}
-		};
-
 		var feedbackLayoutOptions =
 		{
 			yaxis:
@@ -84,14 +79,19 @@ function renderOverview()
 			}
 		};
 
+		var revenueParameterInputs = [];
+		revenueParameterInputs.push(`<input name="maSpan" type="number" data-label="MA Span:" value="30">`);
+
+		Plot.plotCardWithParameters(revenuePlotId, 'Revenue by Day', getRevenueByDay, {}, {}, revenueParameterInputs);
+
 		var parameterInputs = [];
-		parameterInputs.push(`<input name="maSpan" type="number" data-label="Ma Span:" value="30">`);
+		parameterInputs.push(`<input name="maSpan" type="number" data-label="MA Span:" value="30">`);
 		parameterInputs.push(unitSelectHtml);
 
-		Plot.plotCardWithParameters(overviewPlotId, 'Sales by Category', getOverviewData, salesLayoutOptions, {}, parameterInputs);
+		Plot.plotCardWithParameters(overviewPlotId, 'Sales by Category', getOverviewData, {}, {}, parameterInputs);
 
 		var feedbackParameterInputs = [];
-		feedbackParameterInputs.push(`<input name="maSpan" type="number" data-label="Ma Span:" value="30">`);
+		feedbackParameterInputs.push(`<input name="maSpan" type="number" data-label="MA Span:" value="30">`);
 
 		Plot.plotCardWithParameters(overviewitemTableContainerId, 'Pebbles Feedback', getPebblesFeedbackData, feedbackLayoutOptions, {}, feedbackParameterInputs);
 
@@ -141,6 +141,105 @@ function loadOverviewData(onComplete)
 }
 
 // Data generation functions
+
+function getRevenueByDay(params)
+{
+	var unit = 'revenue';
+	var maSpan = params.maSpan;
+
+	var cumSalesItemDataTotal = [];
+	var cumSalesItemDataStudents = [];
+	var cumSalesItemDataNonStudents = [];
+
+	for (var name in categoryDataJsedResultsByName)
+	{
+		var data = categoryDataJsedResultsByName[name].getAny().data;
+		var amountSoldByDateGroupedByCategory = DataHandler.getSumByDateGroupedByCategory(data, ['Students', 'Non students'], unit, 'customer_category');
+
+		cumSalesItemDataTotal.push(amountSoldByDateGroupedByCategory['Total']);
+		cumSalesItemDataStudents.push(amountSoldByDateGroupedByCategory['Students']);
+		cumSalesItemDataNonStudents.push(amountSoldByDateGroupedByCategory['Non students']);
+	}
+	var sumByDateTotal = Math.trimStart(Math.sumByKey(cumSalesItemDataTotal));
+	var sumByDateStudents = Math.trimStart(Math.sumByKey(cumSalesItemDataStudents));
+	var sumByDateNonStudents = Math.trimStart(Math.sumByKey(cumSalesItemDataNonStudents));
+
+	var traceTotal =
+	{
+		x: Object.keys(sumByDateTotal),
+		y: Statistics.movingAverage(Object.values(sumByDateTotal), maSpan),
+		type: 'scatter',
+		name: 'Total'
+	};
+
+	var traceStudents =
+	{
+		x: Object.keys(sumByDateStudents),
+		y: Statistics.movingAverage(Object.values(sumByDateStudents), maSpan),
+		type: 'scatter',
+		name: 'Students'
+	};
+
+	var traceNonStudents =
+	{
+		x: Object.keys(sumByDateNonStudents),
+		y: Statistics.movingAverage(Object.values(sumByDateNonStudents), maSpan),
+		type: 'scatter',
+		name: 'Non students'
+	};
+
+	return [traceTotal, traceStudents, traceNonStudents];
+}
+
+function getCumulativeRevenueByDay(params)
+{
+	var unit = 'revenue';
+	var maSpan = params.maSpan;
+
+	var cumSalesItemDataTotal = [];
+	var cumSalesItemDataStudents = [];
+	var cumSalesItemDataNonStudents = [];
+
+	for (var name in categoryDataJsedResultsByName)
+	{
+		var data = categoryDataJsedResultsByName[name].getAny().data;
+		var amountSoldByDateGroupedByCategory = DataHandler.getSumByDateGroupedByCategory(data, ['Students', 'Non students'], unit, 'customer_category');
+
+		cumSalesItemDataTotal.push(amountSoldByDateGroupedByCategory['Total']);
+		cumSalesItemDataStudents.push(amountSoldByDateGroupedByCategory['Students']);
+		cumSalesItemDataNonStudents.push(amountSoldByDateGroupedByCategory['Non students']);
+	}
+
+	var sumByDateTotal = Math.sumByKey(cumSalesItemDataTotal);
+	var sumByDateStudents = Math.sumByKey(cumSalesItemDataStudents);
+	var sumByDateNonStudents = Math.sumByKey(cumSalesItemDataNonStudents);
+
+	var traceTotal =
+	{
+		x: Object.keys(sumByDateTotal),
+		y: Statistics.movingAverage(Math.cumSum(Object.values(sumByDateTotal)), maSpan),
+		type: 'scatter',
+		name: 'Total'
+	};
+
+	var traceStudents =
+	{
+		x: Object.keys(sumByDateStudents),
+		y: Statistics.movingAverage(Math.cumSum(Object.values(sumByDateStudents)), maSpan),
+		type: 'scatter',
+		name: 'Students'
+	};
+
+	var traceNonStudents =
+	{
+		x: Object.keys(sumByDateNonStudents),
+		y: Statistics.movingAverage(Math.cumSum(Object.values(sumByDateNonStudents)), maSpan),
+		type: 'scatter',
+		name: 'Non students'
+	};
+
+	return [traceTotal, traceStudents, traceNonStudents];
+}
 
 function getOverviewData(params)
 {
@@ -209,11 +308,14 @@ function getPebblesFeedbackData(params)
 	var positiveFeedbackByDateGroupedByCategory = DataHandler.getSumByDateGroupedByCategory(mainLunchData, [], 'positive_feedback', 'customer_category');
 	var negativeFeedbackByDateGroupedByCategory = DataHandler.getSumByDateGroupedByCategory(mainLunchData, [], 'negative_feedback', 'customer_category');
 
-	var positiveFeedbackDates = Object.keys(positiveFeedbackByDateGroupedByCategory['Total']);
-	var negativeFeedbackDates = Object.keys(negativeFeedbackByDateGroupedByCategory['Total']);
+	var totalPositiveFeedbackByDay = Math.trimStart(Math.divideByKey(positiveFeedbackByDateGroupedByCategory['Total'], positiveFeedbackByDateGroupedByCategory['itemCountByDate']), -1);
+	var totalNegativeFeedbackByDay = Math.trimStart(Math.divideByKey(negativeFeedbackByDateGroupedByCategory['Total'], negativeFeedbackByDateGroupedByCategory['itemCountByDate']), -1);
 
-	var positiveFeedbackValues = Statistics.movingAverage(Object.values(Math.divideByKey(positiveFeedbackByDateGroupedByCategory['Total'], positiveFeedbackByDateGroupedByCategory['itemCountByDate'])), maSpan);
-	var negativeFeedbackValues = Statistics.movingAverage(Object.values(Math.divideByKey(negativeFeedbackByDateGroupedByCategory['Total'], negativeFeedbackByDateGroupedByCategory['itemCountByDate'])), maSpan);
+	var positiveFeedbackDates = Object.keys(totalPositiveFeedbackByDay);
+	var negativeFeedbackDates = Object.keys(totalNegativeFeedbackByDay);
+
+	var positiveFeedbackValues = Statistics.movingAverage(Object.values(totalPositiveFeedbackByDay), maSpan);
+	var negativeFeedbackValues = Statistics.movingAverage(Object.values(totalNegativeFeedbackByDay), maSpan);
 
 	var tracePositiveFeedback =
 	{

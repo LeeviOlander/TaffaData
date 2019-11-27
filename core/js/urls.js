@@ -13,6 +13,8 @@ class Urls
 	}
 }
 
+Urls.zippedDataPackageUrl = 'data/data-package.zip';
+
 Urls.databaseTableDataViewUrlBase = '';
 
 Urls.databaseTableInformationGetUrlBase = 'server/database-tables.php';

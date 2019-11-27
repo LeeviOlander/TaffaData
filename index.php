@@ -1,6 +1,8 @@
 <?php
 
-    include_once('authentication.php');
+    include_once('server/core/php/config.php');
+    include_once('server/core/php/session.php');
+    include_once('server/core/php/authentication.php');
 
     // Should match with the value in .htaccess
     $requested_resource_get_parameter = 'resource';
@@ -20,7 +22,7 @@
 
     if(!Authentication::is_authenticated())
     {
-        Authentication::redirect_to_authentication();
+        Authentication::redirect_to_authentication($requested_resource);
         exit();
     }
     else
