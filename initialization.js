@@ -1,6 +1,7 @@
 var vueViewElement = document.getElementById('vue-view');
 var contentElement = document.getElementById('content');
 var navigationElement = document.getElementById('navigation');
+var navigationContainerElement = document.getElementById('navigation-container');
 
 var loadingElement = document.getElementById('loading-screen');
 var loadingProgressBarProgressElement = document.getElementById('loading-progress-bar-progress');
@@ -41,7 +42,7 @@ application.addPage('General',                  '/documentation/general',       
 application.addPage('Client Side Application',  '/documentation/client-side-application',   'views/documentation/client-side-application.js',   documentationDropDown);
 application.addPage('Server Side Application',  '/documentation/server-side-application',   'views/documentation/server-side-application.js',   documentationDropDown);
 
-application.initializeLoadingScreen(loadingElement, loadingProgressBarProgressElement, loadingOutputElement);
+application.initializeLoadingScreen(loadingElement, loadingProgressBarProgressElement, loadingOutputElement, navigationContainerElement);
 application.initializeNavigation(navigationElement);
 application.initializeContent(contentElement);
 application.initializeVue(vueViewElement);

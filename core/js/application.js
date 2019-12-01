@@ -111,9 +111,9 @@ class Application
 		this.routeChanged();
 	}
 
-	initializeLoadingScreen(loadingElement, loadingProgressBarProgressElement, loadingOutputElement)
+	initializeLoadingScreen(loadingElement, loadingProgressBarProgressElement, loadingOutputElement, navigationContainerElement)
 	{
-		this.loadingScreen = new LoadingScreen(loadingElement, loadingProgressBarProgressElement, loadingOutputElement);
+		this.loadingScreen = new LoadingScreen(loadingElement, loadingProgressBarProgressElement, loadingOutputElement, navigationContainerElement);
 	}
 
 	routeChanged()
@@ -230,7 +230,7 @@ class Application
 	{
 		if (hideLoadingScreen)
 		{
-			this.loadingScreen.hideLoadingScreen();
+			this.loadingScreen.loadingCompleted();
 		}
 
 		this.contentElement.innerHTML = htmlContent;
@@ -240,7 +240,7 @@ class Application
 	{
 		if (hideLoadingScreen)
 		{
-			this.loadingScreen.hideLoadingScreen();
+			this.loadingScreen.loadingCompleted();
 		}
 
 		this.contentElement.innerHTML = "";

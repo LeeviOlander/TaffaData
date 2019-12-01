@@ -9,7 +9,6 @@
 
     if(isset($_POST[$username_post_parameter]) && isset($_POST[$password_post_parameter]))
     {
-
         $posted_username = $_POST[$username_post_parameter];
         $posted_password = $_POST[$password_post_parameter];
 
@@ -33,7 +32,34 @@
         }
         else
         {
-            // LDAP SHIT
+            $ldap_server_url = $authentication_settings['ldap_server_url'];
+            $ldap_dn = $authentication_settings['ldap_user_dn'];
+            $ldap_user_group = $authentication_settings['ldap_user_dn'];
+
+            $ldap_user_dn_template = $authentication_settings['ldap_user_dn_template'];
+
+            $ldap_user_dn_actual = str_replace('%(user)', $posted_username, $ldap_user_dn_template);
+
+            $ldap = ldap_connect($ldap_server_url);
+
+            ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
+	        ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
+
+            if($bind = @ldap_bind($ldap, $ldap_user_dn_actual, $posted_password))
+            {
+                $filter = "(sAMAccountName=".$posted_username.")";
+		        $attr = array("memberof");
+		        $result = ldap_search($ldap, $ldap_dn, $filter, $attr) or exit("Unable to search LDAP server");
+		        $entries = ldap_get_entries($ldap, $result);
+		        ldap_unbind($ldap);
+
+                foreach($entries as $key => $val)
+                {
+                    echo $key . ': ' . $val . '<br>';
+                }
+
+                exit();
+            }
         }
 
         $authentication_failed = true;

@@ -6,8 +6,7 @@
     "background_color": "#FF0000",
     "description": "A data visualization application for Täffä AB data.",
     "theme_color": "#FF0000",
-    "icons":
-    [
+    "icons": [
         {
             "src": "pwa/icons/android-chrome-192x192.png",
             "sizes": "192x192",

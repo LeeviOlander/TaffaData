@@ -1,9 +1,9 @@
 class Css { }
 
-
 Css.navItemClassName = 'nav-item';
 Css.navLinkClassName = 'nav-link';
 Css.navActiveClassName = 'nav-active';
+Css.navDisabledClassName = 'nav-disabled';
 Css.dropDownClassName = 'dropdown';
 Css.dropDownMenuClassName = 'dropdown-menu';
 Css.dropDownToggleClassName = 'dropdown-toggle';

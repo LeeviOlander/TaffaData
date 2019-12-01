@@ -352,6 +352,7 @@ MigrationBackup/
 # Secret Settings
 server/secret-settings/authentication-settings.json
 server/secret-settings/database-settings.json
+pwa
 
 # Data
 data/*

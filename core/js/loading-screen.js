@@ -1,27 +1,36 @@
 class LoadingScreen
 {
-	constructor(loadingElement, loadingProgressBarProgressElement, loadingOutputElement)
+	constructor(loadingElement, loadingProgressBarProgressElement, loadingOutputElement, navigationContainerElement)
 	{
 		this.loadingElement = loadingElement;
 		this.loadingProgressBarProgressElement = loadingProgressBarProgressElement;
 		this.loadingOutputElement = loadingOutputElement;
+		this.navigationContainerElement = navigationContainerElement;
 	}
 
 	hideLoadingScreen()
 	{
 		this.loadingElement.classList.add(Css.loadingScreenHideClassName);
+
+		if (this.navigationContainerElement.classList.contains(Css.navDisabledClassName))
+		{
+			this.navigationContainerElement.classList.remove(Css.navDisabledClassName);
+		}
 	}
 
 	showLoadingScreen()
 	{
-
 		if (this.loadingElement.classList.contains(Css.loadingScreenHideClassName))
 		{
 			this.loadingOutputElement.innerHTML = "";
 			this.loadingElement.classList.remove(Css.loadingScreenHideClassName);
 			this.setLoadingScreenProgressBarProgress(0);
 		}
-		
+
+		if (!this.navigationContainerElement.classList.contains(Css.navDisabledClassName))
+		{
+			this.navigationContainerElement.classList.add(Css.navDisabledClassName);
+		}
 	}
 
 	loadingCompleted()

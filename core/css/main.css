@@ -26,6 +26,11 @@ select
 	height: var(--spacing);
 }
 
+.nav-disabled
+{
+    pointer-events: none;
+}
+
 .nav-link:target,
 .nav-active
 {
