@@ -32,32 +32,28 @@
         }
         else
         {
-            $ldap_server_url = $authentication_settings['ldap_server_url'];
-            $ldap_dn = $authentication_settings['ldap_user_dn'];
-            $ldap_user_group = $authentication_settings['ldap_user_dn'];
+            $ldap_host = $authentication_settings['ldap_server_url'];
+            $ldap_port = $authentication_settings['ldap_server_port'];
+            $ldap_rdn = str_replace('{REPLACE WITH USERNAME}', $posted_username, $authentication_settings['ldap_user_dn_template']);
+            $ldap_conn = ldap_connect($ldap_host, $ldap_port);
 
-            $ldap_user_dn_template = $authentication_settings['ldap_user_dn_template'];
+            ldap_set_option($ldap_conn, LDAP_OPT_PROTOCOL_VERSION, 3);
+            ldap_set_option($ldap_conn, LDAP_OPT_REFERRALS, 0);
 
-            $ldap_user_dn_actual = str_replace('%(user)', $posted_username, $ldap_user_dn_template);
+            ldap_start_tls($ldap_conn);
 
-            $ldap = ldap_connect($ldap_server_url);
-
-            ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
-	        ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
-
-            if($bind = @ldap_bind($ldap, $ldap_user_dn_actual, $posted_password))
+            $ldap_bind = @ldap_bind($ldap_conn, $ldap_rdn, $posted_password);
+            
+            if($ldap_bind)
             {
-                $filter = "(sAMAccountName=".$posted_username.")";
-		        $attr = array("memberof");
-		        $result = ldap_search($ldap, $ldap_dn, $filter, $attr) or exit("Unable to search LDAP server");
-		        $entries = ldap_get_entries($ldap, $result);
-		        ldap_unbind($ldap);
+                Session::set_is_signed_in($posted_username);
 
-                foreach($entries as $key => $val)
+                if(in_array($posted_username, $users_with_admin_access))
                 {
-                    echo $key . ': ' . $val . '<br>';
+                    Session::set_has_admin_access(true);
                 }
 
+                header('Location: ' . $_SERVER['REQUEST_URI']);
                 exit();
             }
         }
