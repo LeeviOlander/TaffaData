@@ -15,7 +15,7 @@ class Urls
 
 Urls.zippedDataPackageUrl = 'data/data-package.zip';
 
-Urls.databaseTableDataViewUrlBase = '';
+Urls.databaseTableDataViewUrlBase = '/data/database-table-data';
 
 Urls.databaseTableInformationGetUrlBase = 'server/database-tables.php';
 Urls.databaseTableDataGetUrlBase = 'server/database-table-data.php';

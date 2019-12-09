@@ -180,7 +180,7 @@ function setPageContent()
 	contentElement.appendChild(createPaginationJumperElement());
 
 	application.loadingScreen.reportProgress(progressAfterRender, 'Data rendered.');
-	application.setContentElement(contentElement);
+	application.setContent(contentElement);
 }
 
 var dataDownloadRequest = new XMLHttpRequest();

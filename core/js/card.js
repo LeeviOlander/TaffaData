@@ -1,5 +1,29 @@
 class Card
 {
+	static generateTitleCard(containerElementId, title)
+	{
+		var cardId = containerElementId + '-card';
+		var contentId = containerElementId + '-content';
+
+		var cardElement = document.createElement('div');
+		cardElement.id = cardId;
+		cardElement.className = Css.cardContainerClassNames;
+
+		var cardHeaderElement = document.createElement('div');
+		cardHeaderElement.className = Css.cardContainerHeaderClassNames;
+
+		var cardHeadingElement = document.createElement('h1');
+		cardHeadingElement.className = Css.cardContainerHeaderHeadingClassNames;
+		cardHeadingElement.innerHTML = title;
+
+		cardHeaderElement.appendChild(cardHeadingElement);
+		cardElement.appendChild(cardHeaderElement);
+
+		var containerElement = document.getElementById(containerElementId);
+		containerElement.innerHTML = '';
+		containerElement.appendChild(cardElement);
+	}
+
 	static generateCard(containerElementId, title, onCompleteCallback, extraHeaderElements = [])
 	{
 		var cardId = containerElementId + '-card';
@@ -151,16 +175,18 @@ class Card
 			parameterInputElements.push(inputElement);
 		}
 
-		// Create an OK button that triggers re-render and append to containerElement
-		var okButtonElement = document.createElement('button');
-		okButtonElement.className = Css.cardContainerButtonClassNames;
-		okButtonElement.innerHTML = 'OK';
+		if (headerElements.length > 0)
+		{
 
-		headerElements.push(okButtonElement);
+			// Create an OK button that triggers re-render and append to containerElement
+			var okButtonElement = document.createElement('button');
+			okButtonElement.className = Css.cardContainerButtonClassNames;
+			okButtonElement.innerHTML = 'OK';
 
-		
+			headerElements.push(okButtonElement);
 
-		okButtonElement.onclick = regenerateContentFunction;
+			okButtonElement.onclick = regenerateContentFunction;
+		}
 
 		var onCompleteCallback = function (elementId)
 		{

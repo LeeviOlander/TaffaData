@@ -66,7 +66,18 @@ function renderOverview()
 
 		contentElement.innerHTML = overviewLayout;
 
-		application.setContentElement(contentElement, false);
+		application.setContent(contentElement, false);
+
+		var revenueByDayLayoutOptions =
+		{
+			yaxis:
+			{
+				title:
+				{
+					text: 'Revenue (€)'
+				}
+			}
+		};
 
 		var feedbackLayoutOptions =
 		{
@@ -82,7 +93,7 @@ function renderOverview()
 		var revenueParameterInputs = [];
 		revenueParameterInputs.push(`<input name="maSpan" type="number" data-label="MA Span:" value="30">`);
 
-		Plot.plotCardWithParameters(revenuePlotId, 'Revenue by Day', getRevenueByDay, {}, {}, revenueParameterInputs);
+		Plot.plotCardWithParameters(revenuePlotId, 'Revenue by Day', getRevenueByDay, revenueByDayLayoutOptions, {}, revenueParameterInputs);
 
 		var parameterInputs = [];
 		parameterInputs.push(`<input name="maSpan" type="number" data-label="MA Span:" value="30">`);

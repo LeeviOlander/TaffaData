@@ -226,26 +226,21 @@ class Application
 		return page;
 	}
 
-	setContent(htmlContent, hideLoadingScreen = true)
+	setContent(content, hideLoadingScreen = true)
 	{
 		if (hideLoadingScreen)
 		{
 			this.loadingScreen.loadingCompleted();
 		}
 
-		this.contentElement.innerHTML = htmlContent;
-	}
-
-	setContentElement(htmlContentElement, hideLoadingScreen = true)
-	{
-		if (hideLoadingScreen)
+		if (typeof content == 'string')
 		{
-			this.loadingScreen.loadingCompleted();
+			this.contentElement.innerHTML = content;
 		}
-
-		this.contentElement.innerHTML = "";
-		this.contentElement.appendChild(htmlContentElement);
+		else
+		{
+			this.contentElement.innerHTML = "";
+			this.contentElement.appendChild(content);
+		}
 	}
-
-	
 }

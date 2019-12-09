@@ -149,7 +149,7 @@ function renderItem()
 
 	contentElement.insertAdjacentHTML('beforeend', itemLayout);
 
-	application.setContentElement(contentElement, false);
+	application.setContent(contentElement, false);
 
 	selectedItemDataJsedResult = itemDataJsedResultsByName[selectedItemName];
 
@@ -183,7 +183,7 @@ function renderOverview()
 
 		contentElement.insertAdjacentHTML('beforeend', overviewLayout);
 
-		application.setContentElement(contentElement, false);
+		application.setContent(contentElement, false);
 
 		var meanStdLayoutOptions =
 		{

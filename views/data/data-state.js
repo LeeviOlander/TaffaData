@@ -113,4 +113,4 @@ contentElement.appendChild(updateDataIfNeededButton);
 contentElement.appendChild(spacer);
 contentElement.appendChild(updateDataButton);
 
-application.setContentElement(contentElement);
+application.setContent(contentElement);

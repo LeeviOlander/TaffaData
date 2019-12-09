@@ -108,3 +108,13 @@
     background: var(--main-color);
     border-color: var(--main-color);
 }
+
+pre
+{
+    margin-top: 1rem;
+}
+
+code
+{
+    color: #D63384 !important;
+}

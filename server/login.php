@@ -6,6 +6,7 @@
     $authentication_settings_file_path = SERVER_SECRET_SETTINGS_DIR . '/authentication-settings.json';
 
     $authentication_failed = false;
+    $authentication_error_message = '';
 
     if(isset($_POST[$username_post_parameter]) && isset($_POST[$password_post_parameter]))
     {
@@ -43,18 +44,28 @@
             ldap_start_tls($ldap_conn);
 
             $ldap_bind = @ldap_bind($ldap_conn, $ldap_rdn, $posted_password);
-            
+
             if($ldap_bind)
             {
-                Session::set_is_signed_in($posted_username);
+                $results = ldap_search($ldap_conn, $ldap_rdn, "(samaccountname=$posted_username)", array("memberof"));
+                $entries = ldap_get_entries($ldap_conn, $results);
 
-                if(in_array($posted_username, $users_with_admin_access))
+                if($entries['count'] != 0)
                 {
-                    Session::set_has_admin_access(true);
-                }
+                    Session::set_is_signed_in($posted_username);
 
-                header('Location: ' . $_SERVER['REQUEST_URI']);
-                exit();
+                    if(in_array($posted_username, $users_with_admin_access))
+                    {
+                        Session::set_has_admin_access(true);
+                    }
+
+                    header('Location: ' . $_SERVER['REQUEST_URI']);
+                    exit();
+                }
+                else
+                {
+                    $authentication_error_message = 'Login credentials correct, but access not granted.';
+                }
             }
         }
 
@@ -136,6 +147,7 @@
                                 echo '<br><br>';
                                 echo '<div class="alert alert-danger" role="alert">';
                                 echo    '<strong>Error:</strong> Authentication failed!';
+                                echo    $authentication_error_message;
                                 echo '</div>';
                             }
 

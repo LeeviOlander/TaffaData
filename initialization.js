@@ -21,7 +21,6 @@ var unitSelectHtml =
 
 var application = new Application();
 
-Urls.databaseTableDataViewUrlBase = '/data/database-table-data';
 
 // Page Initialization
 // The NAME will be displayed to the user, the URL will be the suffix in the
