@@ -3,10 +3,35 @@
     $username_post_parameter = 'username';
     $password_post_parameter = 'password';
     
+    $authentication_settings_ldap_server_url_key = 'ldap_server_url';
+    $authentication_settings_ldap_server_port_key = 'ldap_server_port';
+    $authentication_settings_ldap_user_template_dn_key = 'ldap_user_dn_template';
+    $authentication_settings_ldap_search_dn_key = 'ldap_search_dn';
+    $authentication_settings_ldap_search_uid_template_key = 'ldap_search_uid_template';
+    $authentication_settings_users_with_admin_access_key = 'users_with_admin_access';
+    $authentication_settings_independently_authenticated_users_key = 'independently_authenticated_users';
+
     $authentication_settings_file_path = SERVER_SECRET_SETTINGS_DIR . '/authentication-settings.json';
 
     $authentication_failed = false;
     $authentication_error_message = '';
+
+    function print_array_recursively($array)
+    {
+        foreach($array as $key => $val)
+        {
+            echo '<div style="background: rgba(0,0,0,0.1); padding:10px">';
+            echo $key . ' => ' . $val . '(' . gettype($val) . ')' .  '<br>';
+
+            if(is_array($val))
+            {
+                print_array_recursively($val);
+            }
+            echo '</div>';
+
+             
+        }
+    }
 
     if(isset($_POST[$username_post_parameter]) && isset($_POST[$password_post_parameter]))
     {
@@ -15,8 +40,8 @@
 
         $authentication_settings = json_decode(file_get_contents($authentication_settings_file_path), true);
         
-        $users_with_admin_access = $authentication_settings['users_with_admin_access'];
-        $independently_authenticated_users = $authentication_settings['independently_authenticated_users'];
+        $users_with_admin_access = $authentication_settings[$authentication_settings_users_with_admin_access_key];
+        $independently_authenticated_users = $authentication_settings[$authentication_settings_independently_authenticated_users_key];
 
         if(isset($independently_authenticated_users[$posted_username]))
         {
@@ -33,9 +58,9 @@
         }
         else
         {
-            $ldap_host = $authentication_settings['ldap_server_url'];
-            $ldap_port = $authentication_settings['ldap_server_port'];
-            $ldap_rdn = str_replace('{REPLACE WITH USERNAME}', $posted_username, $authentication_settings['ldap_user_dn_template']);
+            $ldap_host = $authentication_settings[$authentication_settings_ldap_server_url_key];
+            $ldap_port = $authentication_settings[$authentication_settings_ldap_server_port_key];
+            $ldap_rdn = str_replace('{REPLACE WITH USERNAME}', $posted_username, $authentication_settings[$authentication_settings_ldap_user_template_dn_key]);
             $ldap_conn = ldap_connect($ldap_host, $ldap_port);
 
             ldap_set_option($ldap_conn, LDAP_OPT_PROTOCOL_VERSION, 3);
@@ -47,8 +72,15 @@
 
             if($ldap_bind)
             {
-                $results = ldap_search($ldap_conn, $ldap_rdn, "(samaccountname=$posted_username)", array("memberof"));
+                $results = ldap_search($ldap_conn, $authentication_settings_ldap_search_dn_key, str_replace('{REPLACE WITH USERNAME}', $posted_username, $authentication_settings[$authentication_settings_ldap_search_uid_template_key]));
                 $entries = ldap_get_entries($ldap_conn, $results);
+
+                print_array_recursively($entries);
+
+                echo ldap_error($ldap_conn);
+
+                exit();
+                
 
                 if($entries['count'] != 0)
                 {
@@ -146,7 +178,7 @@
                             {
                                 echo '<br><br>';
                                 echo '<div class="alert alert-danger" role="alert">';
-                                echo    '<strong>Error:</strong> Authentication failed!';
+                                echo    '<strong>Error:</strong> Authentication failed! ';
                                 echo    $authentication_error_message;
                                 echo '</div>';
                             }

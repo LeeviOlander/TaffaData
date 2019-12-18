@@ -7,6 +7,7 @@ var progressAfterRender = 100;
 
 if (window.location.hash.includes('categories'))
 {
+	var overviewString = 'Categories Overview';
 	var itemTableCardHeading = 'Categories';
 	var itemListPath = 'data/jsed/category-list.jsed';
 	var itemDataPathPrefix = 'data/jsed/categories/';
@@ -14,13 +15,13 @@ if (window.location.hash.includes('categories'))
 }
 else if (window.location.hash.includes('products'))
 {
+	var overviewString = 'Products Overview';
 	var itemTableCardHeading = 'Products';
 	var itemListPath = 'data/jsed/product-list.jsed';
 	var itemDataPathPrefix = 'data/jsed/products/';
 	var itemDataPathSuffix = '.jsed';
 }
 
-var overviewString = 'Overview';
 var selectedGetParameter = 'selected';
 var itemSelectElementId = 'item-select';
 

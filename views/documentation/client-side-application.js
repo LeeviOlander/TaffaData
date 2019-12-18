@@ -190,7 +190,7 @@ Example of conversion from the documentation notation to actual code:
 someFunctionThatWantsYourFirstAndLastNameAndAge({{ [STRING] FIRST NAME }}, {{ [STRING] LAST NAME }}, {{ [INTEGER] AGE }});
 
 // Actual code
-someFunctionThatWantsYourFirstAndLastNameAndAge('Leevi', 'Olander', '23');
+someFunctionThatWantsYourFirstAndLastNameAndAge('Leevi', 'Olander', 23);
 
 \`\`\`
 
@@ -211,24 +211,246 @@ someFunctionThatWantsYourFirstAndLastNameAndAge('Leevi', 'Olander', '23');
 
     <br>
 
-1. **Creating a New Page**
+1. **Creating a New Navigation Menu Item**
 
-    To create a new page (in **initialization.js**), use the following syntax:
+    To create a new navigation menu item (in **initialization.js**), use the following syntax:
     
     \`\`\`
 
     // Syntax
-    application.addPage({{ [STRING] PAGE NAME }}, {{ [STRING] PAGE URL }}, {{ [STRING] PATH TO VIEW FILE }}, {{ [BOOLEAN] HIDDEN OR NOT (FALSE BY DEFAULT) }});
+    application.addPage({{ [STRING] PAGE NAME }}, 
+                        {{ [STRING] PAGE URL }}, 
+                        {{ [STRING] PATH TO VIEW FILE }}, 
+                        {{ [DROPDOWN MENU OBJECT] PARENT ITEM (DEFAULT = NULL) }}, 
+                        {{ [BOOLEAN] HIDDEN (DEFAULT = FALSE) }});
 
     // Actual example that adds a page, which is visible in the top navigation bar.
     application.addPage('Products', '/products', 'views/items.js');
 
-    // Actual example that adds a page, which is not visible in the top navigation bar..
-    application.addPage('Products', '/products', 'views/items.js');
+    \`\`\`
+
+    To create a new drop down menu and adding a navigation menu item to it (in **initialization.js**), use the following syntax:
+    
+    \`\`\`
+
+    // Syntax
+    var dropDown = application.addDropDown({{ [STRING] DROPDOWN NAME }}, 
+                                           {{ [STRING] DROPDOWN URL }});
+
+    application.addPage({{ [STRING] PAGE NAME }}, 
+                        {{ [STRING] PAGE URL }}, 
+                        {{ [STRING] PATH TO VIEW FILE }}, 
+                        dropDown, 
+                        {{ [BOOLEAN] HIDDEN (DEFAULT = FALSE) }});
+
+    // Actual example that adds a dropdown and a page, which are visible in the top navigation bar.
+    // NOTE: The DROPDOWN URL and PAGE URL should have the same base!
+    var dataDropDown = application.addDropDown('Data', '/data');
+    application.addPage('Data State', '/data/data-state', 'views/data/data-state.js', dataDropDown);
+
+    \`\`\`
+    
+    To hide a page, just set the value of **HIDDEN** to **true**. Make sure that the value of **PATH TO VIEW FILE** points to an actual JavaScript file.
+
+    <br>
+
+1. **Creating a New View**
+    
+    To create a new view (also known as a page), you must first create a new file in the **view** directory. Then use the following syntax
+    to display some HTML content:
 
     \`\`\`
 
-    Where 
+    // Syntax
+    application.setContent({{ [STRING OR HTMLELEMENT] HTML CONTENT }}, {{ [BOOLEAN] HIDE LOADING SCREEN (DEFAULT = TRUE) }});
+
+    // Actual example that will display a <h1> element.
+    application.setContent('<h1>Hello World</h1>');
+
+    \`\`\`
+
+    During navigation the application will always display a loading screen. Progress can be reported with the following syntax: 
+
+    \`\`\`
+
+    // Syntax
+    application.loadingScreen.reportProgress({{ [INTEGER] PROGRESS VALUE (BETWEEN 0-100) }}, {{ [STRING] PROGRESS TEXT }});
+
+    // Actual example that reports progress.
+    application.loadingScreen.reportProgress(95, 'Almost done.');
+
+    \`\`\`
+
+    To manually change the state of the loading screen:
+
+    \`\`\`
+
+    // Show the loading screen
+    application.loadingScreen.showLoadingScreen();
+
+    // Hide the loading screen
+    application.loadingScreen.hideLoadingScreen();
+
+    \`\`\`
+
+    <br>
+
+1. **Creating a Card**
+
+    A card (grey box with heading) is the component in which most of the GUI is contained within in this application. To create
+    a card, use the following syntax:
+
+    \`\`\`
+
+    // Syntax
+    Card.generateCard({{ [STRING] ID OF ELEMENT IN TO WHICH PLACE THE CARD }}, 
+                      {{ [STRING] CARD TITLE }},
+                      function (contentElementId)
+                      {
+	                        // Do something here with contentElementId, which is the id of the
+                            // content element of the generated card.
+                      }
+    );
+
+    // Actual example
+    Card.generateCard('implementation', 'Code', function (contentElementId)
+    {
+	    document.getElementById(contentElementId).innerHTML = converter.makeHtml(implementationMarkdownContent);
+    });
+
+    \`\`\`
+
+    To create a card with parameters, which change the behavior of the card in some manner, you must first generate a list
+    of input controls. The list of input controls can be defined as HTML strings or as actual HTML elements, however, the
+    elements must implement the attributes: **name** and **data-label**. The **data-label** is displayed to the user and
+    the **name** is used as a key when returning actual parameter values in associative array.
+
+    \`\`\`
+
+    // Syntax
+    Card.generateCardWithParameters({{ [STRING] ID OF ELEMENT IN TO WHICH PLACE THE CARD}}, 
+                                    {{ [STRING] CARD TITLE }}, 
+                                    {{ [LIST OF HTMLELEMENTS OR LIST OF HTML STRINGS] INPUT ELEMENTS }}, 
+                                    function (contentElementId, parameterValues)
+	                                {
+		                                // Do something here with contentElementId, which is the id of the
+                                        // content element of the generated card, and with parameterValues, 
+                                        // which is an associative array of the specified parameter values. 
+	                                }
+    );
+
+    // Actual example
+    var parameterInputs = [];
+	parameterInputs.push('<input name="maSpan" type="number" data-label="MA Span:" value="10" style="width: 5rem">');
+	parameterInputs.push('<input name="minTimesServed" type="number" data-label="Min Times Served:" value="10"');
+
+    Card.generateCardWithParameters('overview-item-table-container', 'Products', parameterInputs, 
+    function (contentElementId, parameterValues)
+	{
+        // Note: parameterValues is in this case an associative array with the following key-value pairs:
+        // parameterValues = { 'maSpan': 10, 'minTimesServerd': 10 }
+        // getOverviewItemTable(parameterValues) returns an HTML element per the specified parameters.
+		document.getElementById(contentElementId).appendChild(getOverviewItemTable(parameterValues));
+	});
+
+    \`\`\`
+
+    <br>
+
+1. **Creating a Plot Card**
+
+    A plot card is a standard card with an embedded Plotly chart. To create one, use the following syntax:
+
+    \`\`\`
+
+    // Syntax
+    Plot.plotCard({{ [STRING] ID OF ELEMENT IN TO WHICH PLACE THE CARD}}, 
+                  {{ [STRING] CARD TITLE }},
+                  {{ [FUNCTION] DATA GENERATION CALLBACK (NO ARGUMENTS, RETURNS A LIST OF PLOTLY TRACES) }}, 
+                  {{ [PLOTLY LAYOUT OBJECT] LAYOUT CONFIGURATION }}, 
+                  {{ [PLOTLY CONFIGURATION OBJECT] PLOT CONFIGURATION }});
+
+    // Actual example
+    // generateRevenuePlotData is a function that takes no arguments and
+    // returns a list of Plotly traces.
+    Plot.plotCard('revenue-plot', 'Revenue', generateRevenuePlotData, {}, {});
+
+    \`\`\`
+
+    To create a plot card with parameters, which change the behavior of the card in some manner, you must first generate a list
+    of input controls. The list of input controls can be defined as HTML strings or as actual HTML elements, however, the
+    elements must implement the attributes: **name** and **data-label**. The **data-label** is displayed to the user and
+    the **name** is used as a key when returning actual parameter values in associative array.
+
+    \`\`\`
+
+    // Syntax
+    Plot.plotCardWithParameters({{ [STRING] ID OF ELEMENT IN TO WHICH PLACE THE CARD}},
+                                {{ [STRING] CARD TITLE }},
+                                {{ [FUNCTION] DATA GENERATION CALLBACK (TAKES AN ASSOC ARRAY AS ARGUMENT, RETURNS A LIST OF PLOTLY TRACES) }}, 
+                                {{ [PLOTLY LAYOUT OBJECT] LAYOUT CONFIGURATION }}, 
+                                {{ [PLOTLY CONFIGURATION OBJECT] PLOT CONFIGURATION }},
+                                {{ [LIST OF HTMLELEMENTS OR LIST OF HTML STRINGS] INPUT ELEMENTS }}
+    );
+
+    // Actual example
+    var parameterInputs = [];
+	parameterInputs.push('<input name="maSpan" type="number" data-label="MA Span:" value="10" style="width: 5rem">');
+    
+    // getPebblesFeedbackData is a function that takes one associative array as an argument and
+    // returns a list of Plotly traces.
+    Plot.plotCardWithParameters('pebbles-plot-id', 'Pebbles Feedback', getPebblesFeedbackData, {}, {}, parameterInputs);
+
+    \`\`\`
+
+    See the [documentation for Plotly](plot.ly/javascript/) for how the values **LIST OF PLOTLY TRACES**, **LAYOUT CONFIGURATION** and **PLOT CONFIGURATION** 
+    should be configured. The plot card is just a wrapper over these, as such you should be able to do anything that Plotly enables you to do.
+    
+    <br>
+
+1. **DataHandler**
+
+    **DataHandler** is a class that defines one static function: getSumByDateGroupedByCategory. The function solves a problem in the input data, where
+    a single date appears twice with two different values. We only want one value per date, which is why they get summed. 
+
+    \`\`\`
+
+    Example input data:
+    2019-12-17, 50, Students
+    2019-12-17, 20, Students
+    2019-12-17, 20, Non students
+    2019-12-18, 50, Students
+    2019-12-18, 20, Non students 
+
+    Desired output data:
+    2019-12-17, 70, Students
+    2019-12-17, 20, Non students
+    2019-12-17, 90, Total
+    2019-12-18, 50, Students
+    2019-12-18, 20, Non students 
+    2019-12-18, 70, Total 
+    
+    \`\`\`
+
+    To use this function, use the following syntax:
+
+    \`\`\`
+    
+    // Syntax
+    DataHandler.getSumByDateGroupedByCategory({{ [LIST OF DATA ITEMS] DATA }}, 
+                                              {{ [LIST OF STRINGS] CATEGORIES THAT YOU DEFINETLY WANT }}, 
+                                              {{ [STRING] KEY TO THE PROPERTY THAT IS TO BE SUMMED }}, 
+                                              {{ [STRING] CATEGORY PROPERTY KEY }}, 
+                                              {{ [DATE] START DATE (DEFAULT = 01.01.2000}}, 
+                                              {{ [DATE] END DATE (DEFAULT = CURRENT DATE }},
+                                              {{ [STRING] DATE PROPERTY KEY (DEFAULT = 'date' }},
+                                              {{ [STRING] NAME OF TOTAL CATEGORY (DEFAULT = 'Total' }}
+    );
+
+    // Actual example, where data is a list of data items
+    DataHandler.getSumByDateGroupedByCategory(data, ['Students', 'Non students'], 'revenue', 'customer_category');
+
+    \`\`\`
 `;
 
 var contentElement = document.createElement('div');

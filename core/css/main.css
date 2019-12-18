@@ -63,9 +63,9 @@ select
     padding: 0;
 }
 
-select.h2-like-select
+select.h1-like-select
 {
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 500;
     background: #F0F1F2;
     color: var(--main-color) !important;
@@ -73,7 +73,7 @@ select.h2-like-select
     margin-bottom: var(--spacing);
 }
 
-.h2-like-select > option
+.h1-like-select > option
 {
     font-size: 1rem;
     color: initial;

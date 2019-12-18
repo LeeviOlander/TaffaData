@@ -18,7 +18,7 @@ class Plot
 	{
 		var onCompleteCallback = function (elementId)
 		{
-			Plot.plot(elementId, generateDataCallback, layout, config);
+			Plot.plot(elementId, generateDataCallback(), layout, config);
 		}
 
 		Card.generateCard(containerElementId, title, parameterInputs, onCompleteCallback);

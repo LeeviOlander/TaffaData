@@ -159,7 +159,6 @@
     <Content Include="views\items.js" />
     <Content Include="views\data\database-table-data.js" />
     <Content Include="views\data\database-tables.js" />
-    <Content Include="views\documentation.js" />
     <Content Include="views\documentation\general.js" />
     <Content Include="views\documentation\server-side-application.js" />
     <Content Include="views\documentation\client-side-application.js" />

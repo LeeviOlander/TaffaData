@@ -45,7 +45,7 @@ Css.cardContainerInputContainerClassNames = 'card-input-container';
 Css.cardContainerCheckboxContainerClassNames = 'card-checkbox-container';
 Css.cardContainerButtonClassNames = 'card-button btn btn-primary';
 
-Css.selectClassNames = 'h2-like-select form-control';
+Css.selectClassNames = 'h1-like-select form-control';
 
 Css.overviewTableContainerClassNames = 'table-responsive';
 Css.overviewTableHeaderClassNames = 'card-header';
