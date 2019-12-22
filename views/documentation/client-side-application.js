@@ -3,6 +3,7 @@ var converter = new showdown.Converter();
 var titleCardId = 'title';
 var specificationsCardId = 'specifications';
 var structureCardId = 'structure';
+var techCardId = 'structure';
 var implementationCardId = 'implementation';
 
 var layout =
@@ -13,6 +14,8 @@ var layout =
         <div class="col-12" id="${specificationsCardId}">
         </div>
         <div class="col-12" id="${structureCardId}">
+        </div>
+        <div class="col-12" id="${techCardId}">
         </div>
         <div class="col-12" id="${implementationCardId}">
         </div>
@@ -75,6 +78,22 @@ var specificationsCardMarkdownContent =
 
 `;
 
+var technologiesMarkdownContent =
+`
+
+This is a list of the libraries and technologies used in the client side application. The files can be found under **core/lib**.
+
+1. **Bootstrap v4.3.1**
+1. **jQuery v3.4.1**
+1. **JSED v0.8.0**
+1. **math.js v6.2.2**
+1. **showdown v1.9.1**
+1. **tablesort v5.0.2**
+1. **Vue.js v2.6.10**
+1. **vue-router v3.1.3**
+
+`;
+
 var structureMarkdownContent =
 `
 1. **core/assets**
@@ -106,7 +125,7 @@ var structureMarkdownContent =
 
 1. **data/jsed**
     
-    The directory of the JSED data.
+    The directory of the JSED data. **Ignored** by GIT.
 
     <br>
 
@@ -115,7 +134,7 @@ var structureMarkdownContent =
     The directory of the raw data. The raw data is completely equivalent to the JSED data,
     but is readable by a human. This data can not and should not be used in the client side
     application. Using the raw data will destroy the ability to run the application directly 
-    from local files.
+    from local files. **Ignored** by GIT
 
     <br>
 
@@ -439,18 +458,54 @@ someFunctionThatWantsYourFirstAndLastNameAndAge('Leevi', 'Olander', 23);
     // Syntax
     DataHandler.getSumByDateGroupedByCategory({{ [LIST OF DATA ITEMS] DATA }}, 
                                               {{ [LIST OF STRINGS] CATEGORIES THAT YOU DEFINETLY WANT }}, 
-                                              {{ [STRING] KEY TO THE PROPERTY THAT IS TO BE SUMMED }}, 
+                                              {{ [STRING] SUMMABLE PROPERTY KEY }}, 
                                               {{ [STRING] CATEGORY PROPERTY KEY }}, 
-                                              {{ [DATE] START DATE (DEFAULT = 01.01.2000}}, 
-                                              {{ [DATE] END DATE (DEFAULT = CURRENT DATE }},
-                                              {{ [STRING] DATE PROPERTY KEY (DEFAULT = 'date' }},
-                                              {{ [STRING] NAME OF TOTAL CATEGORY (DEFAULT = 'Total' }}
+                                              {{ [DATE] START DATE (DEFAULT = 01.01.2000) }}, 
+                                              {{ [DATE] END DATE (DEFAULT = CURRENT DATE) }},
+                                              {{ [STRING] DATE PROPERTY KEY (DEFAULT = 'date') }},
+                                              {{ [STRING] NAME OF TOTAL CATEGORY (DEFAULT = 'Total') }}
     );
 
     // Actual example, where data is a list of data items
     DataHandler.getSumByDateGroupedByCategory(data, ['Students', 'Non students'], 'revenue', 'customer_category');
 
     \`\`\`
+
+    Note that the function assumes that a data item in **DATA** is an associative array, in which the following are keys:
+    **SUMMABLE PROPERTY KEY**, **CATEGORY PROPERTY KEY** and **DATE PROPERTY KEY**. 
+
+    <br>
+
+1. **JSED**
+
+    This is the data format that allows one to execute the application from local files without installation. The format
+    solves the CORS error. To load .jsed files use the following syntax:
+
+    \`\`\`
+
+    // Syntax
+    JSED.parse({{ [STRING] PATH TO JSED FILE }}, {{ [FUNCTION] ONCOMPLETE CALLBACK }});
+
+    // Actual example
+    JSED.parse('data/jsed/category-list.jsed', function (result) 
+    {
+        var categories = result.get('category-list.json').data;
+    
+        // Do something here
+    });
+
+    \`\`\`
+
+    **ONCOMPLETE CALLBACK** takes one parameter, which is the result of the parsing. The
+    result is an object, from which you can get the data for each packed JSED packed file.
+
+    <br>
+
+1. **Other**
+
+    Some other code is contained in the directory **core/js**, but is not too relevant and should be quite easy to understand if need be.
+    However, it might be worthwhile to at least check the files: **math-operations.js** and **statistics.js**. Additionally, **window.onhashchange**
+    is always set to null after a navigation.
 `;
 
 var contentElement = document.createElement('div');
@@ -469,6 +524,11 @@ Card.generateCard(specificationsCardId, 'Specifications', function (contentEleme
 Card.generateCard(structureCardId, 'File Structure', function (contentElementId)
 {
 	document.getElementById(contentElementId).innerHTML = converter.makeHtml(structureMarkdownContent);
+});
+
+Card.generateCard(techCardId, 'Technologies & Libraries', function (contentElementId)
+{
+	document.getElementById(contentElementId).innerHTML = converter.makeHtml(technologiesMarkdownContent);
 });
 
 Card.generateCard(implementationCardId, 'Code', function (contentElementId)

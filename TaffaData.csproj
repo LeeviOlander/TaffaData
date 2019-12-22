@@ -165,6 +165,8 @@
     <Content Include="views\home.js" />
     <None Include=".gitignore" />
     <None Include=".htpasswd" />
+    <None Include="server\core\php\functions.php" />
+    <None Include="server\core\php\request.php" />
     <None Include="server\login.php" />
     <None Include="server\core\php\authentication.php" />
     <None Include="core\lib\jsed\lib\zip\.jshintrc" />
@@ -1042,7 +1044,6 @@
     <None Include="data\raw\products\Wiener schnitzel mashed potatoes.zip" />
     <None Include="data\raw\products\Wiener schnitzel, green pepper sauce.zip" />
     <None Include="manifest.json" />
-    <None Include="server\mime.php" />
     <None Include="server\core\php\config.php" />
     <None Include="server\core\php\db-connection.php" />
     <None Include="server\core\php\includes.php" />
@@ -1057,11 +1058,13 @@
     <None Include="server\database-info.php" />
     <None Include="server\database-table-data.php" />
     <None Include="server\database-tables.php" />
+    <None Include="server\public-settings\database-settings.json" />
     <None Include="server\secret-settings\.htaccess" />
     <None Include="server\secret-settings\example-authentication-settings.json" />
     <None Include="server\secret-settings\authentication-settings.json" />
+    <None Include="server\update-data-if-needed.php" />
     <None Include="server\update-data.php" />
-    <None Include="server\public-settings\database-settings.json" />
+    <None Include="server\public-settings\data-settings.json" />
     <None Include="server\secret-settings\example-database-settings.json" />
     <None Include="server\secret-settings\database-settings.json" />
     <None Include=".htaccess" />
@@ -1070,5 +1073,8 @@
   <ItemGroup>
     <None Include="LICENSE" />
     <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="server\core\php\hzip.php" />
   </ItemGroup>
 </Project>

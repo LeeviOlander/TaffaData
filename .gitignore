@@ -356,3 +356,6 @@ pwa
 
 # Data
 data/*
+
+# Development app
+dev.zip

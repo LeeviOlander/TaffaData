@@ -1,5 +1,8 @@
 var contentElement = document.createElement('div');
 
+var dataUpdatedId = 'data-updated';
+var previousDataUpdateStartedId = 'prev-data-update-started';
+
 var layout =
 `	
     <h1>
@@ -10,7 +13,9 @@ var layout =
         <strong>
             Data Updated:      
         </strong>
-        xxxx-xx-xx
+        <span id="${dataUpdatedId}">
+            xxxx-xx-xx
+        </span>
     </p>
 
 
@@ -18,7 +23,9 @@ var layout =
         <strong>
             Previous Data Update Started:      
         </strong>
-        xxxx-xx-xx
+        <span id="${previousDataUpdateStartedId}">
+            xxxx-xx-xx
+        </span>
     </p>
 
 
@@ -26,8 +33,8 @@ var layout =
         <strong>
             Zipped Data:      
         </strong>
-        <a href="${Urls.zippedDataPackageUrl}">
-            data-package.zip
+        <a href="${Urls.dataPackageUrl}">
+            Download
         </a>
     </p>
 
@@ -55,24 +62,12 @@ function onForceUpdateDataClicked()
 
 				xhr.onload = function ()
 				{
-					if (xhr.response.toLowerCase().includes('error'))
-					{
-						bootbox.alert({
-							title: "Error",
-							message: xhr.response,
-							centerVertical: true,
-							closeButton: false
-						});
-					}
-					else
-					{
-						bootbox.alert({
-							title: "Success",
-							message: xhr.response,
-							centerVertical: true,
-							closeButton: false
-						});
-					}
+					bootbox.alert({
+						title: "Response",
+						message: xhr.response,
+						centerVertical: true,
+						closeButton: false
+					});
 
 				};
 
@@ -86,6 +81,10 @@ function onForceUpdateDataClicked()
 					});
 				};
 
+				xhr.open('POST', Urls.updateDataUrl);
+
+				xhr.send();
+
 			}
 		}
 	});
@@ -95,22 +94,26 @@ function onForceUpdateDataClicked()
 
 contentElement.innerHTML = layout;
 
-var updateDataIfNeededButton = document.createElement('button');
-updateDataIfNeededButton.className = Css.primaryButtonClassNames;
-updateDataIfNeededButton.innerHTML = 'Update Data If Needed';
-
-var spacer = document.createElement('span');
-spacer.style.width = '1rem';
-spacer.style.height = '1rem';
-spacer.style.display = 'inline-block';
-
 var updateDataButton = document.createElement('button');
 updateDataButton.className = Css.primaryButtonClassNames;
 updateDataButton.innerHTML = 'Force Data Update Now';
 updateDataButton.onclick = onForceUpdateDataClicked;
 
-contentElement.appendChild(updateDataIfNeededButton);
-contentElement.appendChild(spacer);
 contentElement.appendChild(updateDataButton);
+
+var dataStateXhr = new XMLHttpRequest();
+
+dataStateXhr.onload = function ()
+{
+	var data = JSON.parse(dataStateXhr.response);
+
+	document.getElementById(dataUpdatedId).innerHTML = data['last_update_date'];
+	document.getElementById(previousDataUpdateStartedId).innerHTML = data['last_update_start_date'];
+
+};
+
+dataStateXhr.open('POST', Urls.dataStateUrl);
+
+dataStateXhr.send();
 
 application.setContent(contentElement);

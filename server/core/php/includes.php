@@ -13,6 +13,9 @@
     include_once(SERVER_CORE_DIR . '/php/jsed-input-data.php');
     include_once(SERVER_CORE_DIR . '/php/session.php');
     include_once(SERVER_CORE_DIR . '/php/authentication.php');
+    include_once(SERVER_CORE_DIR . '/php/request.php');
+    include_once(SERVER_CORE_DIR . '/php/functions.php');
+    include_once(SERVER_CORE_DIR . '/php/hzip.php');
 
 
 ?>

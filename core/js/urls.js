@@ -13,7 +13,8 @@ class Urls
 	}
 }
 
-Urls.zippedDataPackageUrl = 'data/data-package.zip';
+Urls.dataPackageUrl = 'data/data-package.zip';
+Urls.dataStateUrl = 'data/data-state.json';
 
 Urls.databaseTableDataViewUrlBase = '/data/database-table-data';
 
@@ -21,3 +22,6 @@ Urls.databaseTableInformationGetUrlBase = 'server/database-tables.php';
 Urls.databaseTableDataGetUrlBase = 'server/database-table-data.php';
 
 Urls.tableNameGetParameter = 'table-name';
+
+Urls.updateDataUrl = 'server/update-data.php';
+Urls.updateDataIfNeededUrl = 'server/update-data-if-needed.php';

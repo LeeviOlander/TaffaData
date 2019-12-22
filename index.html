@@ -172,6 +172,20 @@
         <script src="initialization.js"></script>
     </div>
 
+    <script>
+        // Update data on server if needed
+
+        var dataStateXhr = new XMLHttpRequest();
+        dataStateXhr.open('POST', Urls.updateDataIfNeededUrl);
+        dataStateXhr.send();
+
+        dataStateXhr.onload = function ()
+        {
+            console.log(dataStateXhr.response);
+        };
+
+    </script>
+
 </body>
 
 </html>
