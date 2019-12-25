@@ -40,6 +40,7 @@ var documentationDropDown = application.addDropDown('Documentation', '/documenta
 application.addPage('General',                  '/documentation/general',                   'views/documentation/general.js',                   documentationDropDown);
 application.addPage('Client Side Application',  '/documentation/client-side-application',   'views/documentation/client-side-application.js',   documentationDropDown);
 application.addPage('Server Side Application',  '/documentation/server-side-application',   'views/documentation/server-side-application.js',   documentationDropDown);
+application.addPage('Development',              '/documentation/development',               'views/documentation/development.js',               documentationDropDown);
 
 application.initializeLoadingScreen(loadingElement, loadingProgressBarProgressElement, loadingOutputElement, navigationContainerElement);
 application.initializeNavigation(navigationElement);

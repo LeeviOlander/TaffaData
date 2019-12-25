@@ -15,14 +15,6 @@
     $dev_app_zip_path = ROOT_DIR . '/dev.zip';
     $data_package_path = DATA_DIR . '/data-package.zip';
     
-    if(file_exists($dev_app_zip_path))
-    {   
-        unlink($dev_app_zip_path);
-    }
-
-    HZip::zipDir(ROOT_DIR, $dev_app_zip_path, array(SERVER_SECRET_SETTINGS_DIR . '/authentication-settings.json', SERVER_SECRET_SETTINGS_DIR . '/database-settings.json'));
-    exit();
-
     $data_state_last_update_date_key = 'last_update_date';
     $data_state_last_update_start_date_key = 'last_update_start_date';
 

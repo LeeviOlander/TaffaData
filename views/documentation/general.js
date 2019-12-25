@@ -1,14 +1,14 @@
 var converter = new showdown.Converter();
 
 var titleCardId = 'title';
-var objectivesCardId = 'terminology';
+var devCardId = 'terminology';
 
 var layout =
 `
     <div class="row">
         <div class="col-12" id="${titleCardId}">
         </div>
-        <div class="col-12" id="${objectivesCardId}">
+        <div class="col-12" id="${devCardId}">
         </div>
     </div>
 `;
@@ -74,7 +74,7 @@ application.setContent(contentElement, false);
 
 Card.generateTitleCard(titleCardId, 'General Documentation');
 
-Card.generateCardWithParameters(objectivesCardId, 'Terminology', [], function (contentElementId, parameterValues)
+Card.generateCardWithParameters(devCardId, 'Terminology', [], function (contentElementId, parameterValues)
 {
 	document.getElementById(contentElementId).innerHTML = converter.makeHtml(objectivesCardMarkdownContent);
 });
