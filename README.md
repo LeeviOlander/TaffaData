@@ -1,11 +1,12 @@
 ![TäffäData](core/assets/logo.png "TäffäData")
 
 **TäffäData** is a data visualization application for the data collected by Teknologföreningen's restaurant. The documentation for the application
-is self contained, which means that by cloning the application and launching it you will be able to view the documentation.
+is self contained, which means that by cloning the application and launching it you will be able to view the documentation. Try out the application at 
+[taffadata.tf.fi](https://taffadata.tf.fi).
 
-## Programming Languages
+## Technologies
 
-+ ES6
++ Javascript (ES6)
 + PHP 7
 + CSS3
 + HTML5
