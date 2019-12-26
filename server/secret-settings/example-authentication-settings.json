@@ -1,52 +1,24 @@
 {
-    // NOTE: ALL COMMENTS MUST BE REMOVED IN PRODUCTION!
-    // RENAME THIS FILE TO: authentication-settings.json
-    // AND FILL IN THE CORRECT INFORMATION
-
-    // List of Teknologföreningen users with admin access
-    "users_with_admin_access":
-    [
-        "HERE",
-        "LIST OF",
-        "USERS WITH",
-        "ADMIN ACCESS",
-        "TEKNOLOGFÖRENINGEN USER IDS"
-
-        // Example:
-        // "jack",
-        // "john",
-        // "allison"
+    "ldap_server_url": "{{ [STRING] URL TO LDAP SERVER }}",
+    "ldap_server_port": "{{ [INT] LDAP PORT NUMBER }}",
+    "ldap_user_dn_template": "uid={REPLACE WITH USERNAME},ou=People,dc=teknologforeningen,dc=fi",
+    "users_with_admin_access": [
+        "COMMA",
+        "SEPARATED",
+        "USER",
+        "IDS",
+        "HERE"
     ],
-
-    // Associative array of independently authenticated users
-    // This should not generally be used, but works as an alternative
-    "independently_authenticated_users":
-    {
-        "EXAMPLE USER NAME HERE":
-        {
-            "password": "PASSWORD IN TEXT FORMAT HERE",
-            "admin_access": "HERE BOOLEAN INDICATING WHETHER USER HAS ADMIN ACCESS OR NOT"
-        },
-        "EXAMPLE USER NAME 2 HERE":
-        {
-            "password": "PASSWORD IN TEXT FORMAT HERE",
-            "admin_access": "HERE BOOLEAN INDICATING WHETHER USER HAS ADMIN ACCESS OR NOT"
-        }
-
-
-        /* 
-        Example:
-        "CaptainFlint":
-        {
-            "password": "PirateBay#666",
+    "independently_authenticated_users": {
+        "EXAMPLE-USER": {
+            "password": "EXAMPLE PASSWORD",
             "admin_access": false
         },
-        "CaptainHook":
-        {
-            "password": "Tr34sur3+B00ty",
-            "admin_access": true
+        "EXAMPLE-USER2": {
+            "password": "EXAMPLE PASSWORD2",
+            "admin_access": false
         }
+    },
+    "REMOVE ME": "RENAME THIS FILE TO 'authentication-settings.json' AND REMOVE THE KEY 'REMOVE ME' "
 
-        */
-    }
 }
