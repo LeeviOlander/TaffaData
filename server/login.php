@@ -72,15 +72,22 @@
 
             if($ldap_bind)
             {
-                $results = ldap_search($ldap_conn, $authentication_settings_ldap_search_dn_key, str_replace('{REPLACE WITH USERNAME}', $posted_username, $authentication_settings[$authentication_settings_ldap_search_uid_template_key]));
-                $entries = ldap_get_entries($ldap_conn, $results);
+                Session::set_is_signed_in($posted_username);
 
-                print_array_recursively($entries);
+                if(in_array($posted_username, $users_with_admin_access))
+                {
+                    Session::set_has_admin_access(true);
+                }
 
-                echo ldap_error($ldap_conn);
-
+                header('Location: ' . $_SERVER['REQUEST_URI']);
                 exit();
-                
+
+                // THE LDAP CODE BELOW DOES NOT WORK
+                // FUCK IT
+                // LDAP SUCKS
+
+                $results = ldap_search($ldap_conn, $authentication_settings[$authentication_settings_ldap_search_dn_key], str_replace('{REPLACE WITH USERNAME}', $posted_username, $authentication_settings[$authentication_settings_ldap_search_uid_template_key]));
+                $entries = ldap_get_entries($ldap_conn, $results);
 
                 if($entries['count'] != 0)
                 {
