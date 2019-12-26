@@ -1,6 +1,6 @@
-# TäffäData
+![TäffäData](core/assets/logo.png "TäffäData")
 
-TäffäData is a data visualization application for the data collected by Teknologföreningen's restaurant. The documentation for the application
+**TäffäData** is a data visualization application for the data collected by Teknologföreningen's restaurant. The documentation for the application
 is self contained, which means that by cloning the application and launching it you will be able to view the documentation.
 
 ## Programming Languages
