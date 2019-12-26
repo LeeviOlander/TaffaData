@@ -1,15 +1,21 @@
-var contentElement = document.createElement('div');
-
+var titleCardId = 'title';
+var dataInfoCardId = 'data-state-card';
 var dataUpdatedId = 'data-updated';
 var previousDataUpdateStartedId = 'prev-data-update-started';
 
 var layout =
 `	
-    <h1>
-        Data State
-    </h1>
+	<div class="row">
+		<div class="col-12" id="${titleCardId}">
+		</div>
+		<div class="col-12" id="${dataInfoCardId}">
+		</div>
+	</div>
+`;
 
-    <p>
+var dataInfoCardContent = 
+`
+	<p>
         <strong>
             Data Updated:      
         </strong>
@@ -36,9 +42,9 @@ var layout =
         <a href="${Urls.dataPackageUrl}">
             Download
         </a>
-    </p>
-
-    <br>
+	</p>
+	
+	<br>
 `;
 
 function onForceUpdateDataClicked()
@@ -92,28 +98,37 @@ function onForceUpdateDataClicked()
 	
 }
 
+var contentElement = document.createElement('div');
 contentElement.innerHTML = layout;
 
-var updateDataButton = document.createElement('button');
-updateDataButton.className = Css.primaryButtonClassNames;
-updateDataButton.innerHTML = 'Force Data Update Now';
-updateDataButton.onclick = onForceUpdateDataClicked;
+application.setContent(contentElement, false);
 
-contentElement.appendChild(updateDataButton);
+Card.generateTitleCard(titleCardId, 'Data State');
 
-var dataStateXhr = new XMLHttpRequest();
-
-dataStateXhr.onload = function ()
+Card.generateCard(dataInfoCardId, 'Data Info', function (contentElementId)
 {
-	var data = JSON.parse(dataStateXhr.response);
+	var updateDataButton = document.createElement('button');
+	updateDataButton.className = Css.primaryButtonClassNames;
+	updateDataButton.innerHTML = 'Force Data Update Now';
+	updateDataButton.onclick = onForceUpdateDataClicked;
 
-	document.getElementById(dataUpdatedId).innerHTML = data['last_update_date'];
-	document.getElementById(previousDataUpdateStartedId).innerHTML = data['last_update_start_date'];
+	document.getElementById(contentElementId).innerHTML = dataInfoCardContent;
+	document.getElementById(contentElementId).appendChild(updateDataButton);
 
-};
+	var dataStateXhr = new XMLHttpRequest();
 
-dataStateXhr.open('POST', Urls.dataStateUrl);
+	dataStateXhr.onload = function ()
+	{
+		var data = JSON.parse(dataStateXhr.response);
 
-dataStateXhr.send();
+		document.getElementById(dataUpdatedId).innerHTML = data['last_update_date'];
+		document.getElementById(previousDataUpdateStartedId).innerHTML = data['last_update_start_date'];
 
-application.setContent(contentElement);
+	};
+
+	dataStateXhr.open('POST', Urls.dataStateUrl);
+
+	dataStateXhr.send();
+});
+
+application.loadingScreen.loadingCompleted();

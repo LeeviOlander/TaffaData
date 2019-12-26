@@ -1,15 +1,29 @@
-
+var titleCardId = 'title';
+var dbTableContainerId = 'table-container';
 var downloadTimeShareEstimate = 0.8;
 var renderingTimeShareEstimeate = 1 - downloadTimeShareEstimate;
 
 var dataDownloadRequest = new XMLHttpRequest();
+var contentElement = document.createElement('div');
+
+var layout = 
+`
+	<div id="${titleCardId}">
+	</div>
+
+	<div id="${dbTableContainerId}">
+	</div>
+`;
+
+contentElement.innerHTML = layout;
+
+application.setContent(contentElement, false);
+
+Card.generateTitleCard(titleCardId, 'Database Tables');
 
 dataDownloadRequest.onload = function ()
 {
 	var tables = JSON.parse(dataDownloadRequest.response);
-
-	var headingElement = document.createElement('h1');
-	headingElement.innerText = 'Database Tables';
 
 	var tableContainerContainerElement = document.createElement('div');
 	tableContainerContainerElement.className = Css.databaseTableContainerContainerClassNames;
@@ -61,8 +75,10 @@ dataDownloadRequest.onload = function ()
 	}
 
 	application.loadingScreen.reportProgress(100, 'Data loaded and rendered.');
-	application.setContent(headingElement.outerHTML + tableContainerContainerElement.outerHTML);
 
+	document.getElementById(dbTableContainerId).innerHTML = tableContainerContainerElement.outerHTML;
+
+	application.loadingScreen.loadingCompleted();
 };
 
 dataDownloadRequest.onerror = function ()

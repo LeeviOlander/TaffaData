@@ -1,6 +1,6 @@
 class Card
 {
-	static generateTitleCard(containerElementId, title)
+	static generateTitleCard(containerElementId, title, bodyContent = '')
 	{
 		var cardId = containerElementId + '-card';
 		var contentId = containerElementId + '-content';
@@ -18,6 +18,17 @@ class Card
 
 		cardHeaderElement.appendChild(cardHeadingElement);
 		cardElement.appendChild(cardHeaderElement);
+
+		if(bodyContent != '')
+		{
+			var cardBodyElement = document.createElement('div');
+			cardBodyElement.className = Css.cardContainerBodyClassNames;
+
+			cardBodyElement.innerHTML = bodyContent;
+
+			cardElement.appendChild(cardBodyElement);
+
+		}
 
 		var containerElement = document.getElementById(containerElementId);
 		containerElement.innerHTML = '';

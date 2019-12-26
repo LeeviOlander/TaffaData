@@ -13,6 +13,7 @@ var overviewString = 'Overview';
 var selectedGetParameter = 'selected';
 var categorySelectElementId = 'category-select';
 
+var titleCardId = 'title';
 var revenuePlotId = 'revenue';
 var revenueCumulativeSumPlotId = 'cumulative-revenue';
 var overviewPlotId = 'overview-data';
@@ -30,6 +31,8 @@ var selectedCategoryDataJsedResult = null;
 var overviewLayout =
 	`
     <div class="row">
+		<div class="col-12" id="${titleCardId}">
+		</div>
         <div class="col-12" id="${revenuePlotId}">
         </div>
         <div class="col-12" id="${revenueCumulativeSumPlotId}">
@@ -67,6 +70,13 @@ function renderOverview()
 		contentElement.innerHTML = overviewLayout;
 
 		application.setContent(contentElement, false);
+
+
+		Card.generateTitleCard(titleCardId, '<img src="core/assets/logo.png" style="height: 2.5rem">', 
+		`
+			<strong>TäffäData</strong> is a data visualization application for the data collected by <a href="https://about.teknologforeningen.fi/index.php/en/lunch-restaurant">Teknologföreningen\'s restaurant.</a>
+		`);
+ 
 
 		var revenueByDayLayoutOptions =
 		{
