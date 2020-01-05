@@ -99,7 +99,7 @@
         unlink($dev_app_zip_path);
     }
 
-    HZip::zipDir(ROOT_DIR, $dev_app_zip_path, array(SERVER_SECRET_SETTINGS_DIR . '/authentication-settings.json', SERVER_SECRET_SETTINGS_DIR . '/database-settings.json'));
+    HZip::zipDir(ROOT_DIR, $dev_app_zip_path, array(SERVER_SECRET_SETTINGS_DIR . '/authentication-settings.json' => true, SERVER_SECRET_SETTINGS_DIR . '/database-settings.json' => true));
 
     echo 'Data update completed!';
     
