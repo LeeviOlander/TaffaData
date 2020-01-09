@@ -163,10 +163,13 @@
     <Content Include="views\documentation\server-side-application.js" />
     <Content Include="views\documentation\client-side-application.js" />
     <Content Include="views\home.js" />
+    <Content Include="views\users.js" />
     <None Include=".gitignore" />
     <None Include=".htpasswd" />
     <None Include="server\core\php\functions.php" />
     <None Include="server\core\php\request.php" />
+    <None Include="server\save-standard-users.php" />
+    <None Include="server\save-admin-users.php" />
     <None Include="server\login.php" />
     <None Include="server\core\php\authentication.php" />
     <None Include="core\lib\jsed\lib\zip\.jshintrc" />
@@ -1069,6 +1072,8 @@
     <None Include="server\secret-settings\database-settings.json" />
     <None Include=".htaccess" />
     <None Include="index.php" />
+    <None Include="server\get-admin-users.php" />
+    <None Include="server\get-standard-users.php" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LICENSE" />

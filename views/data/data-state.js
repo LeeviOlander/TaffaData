@@ -1,5 +1,5 @@
 var titleCardId = 'title';
-var dataInfoCardId = 'data-state-card';
+var usersAdmin = 'data-state-card';
 var dataUpdatedId = 'data-updated';
 var previousDataUpdateStartedId = 'prev-data-update-started';
 
@@ -8,7 +8,7 @@ var layout =
 	<div class="row">
 		<div class="col-12" id="${titleCardId}">
 		</div>
-		<div class="col-12" id="${dataInfoCardId}">
+		<div class="col-12" id="${usersAdmin}">
 		</div>
 	</div>
 `;
@@ -90,12 +90,9 @@ function onForceUpdateDataClicked()
 				xhr.open('POST', Urls.updateDataUrl);
 
 				xhr.send();
-
 			}
 		}
 	});
-
-	
 }
 
 var contentElement = document.createElement('div');
@@ -105,7 +102,7 @@ application.setContent(contentElement, false);
 
 Card.generateTitleCard(titleCardId, 'Data State');
 
-Card.generateCard(dataInfoCardId, 'Data Info', function (contentElementId)
+Card.generateCard(usersAdmin, 'Data Info', function (contentElementId)
 {
 	var updateDataButton = document.createElement('button');
 	updateDataButton.className = Css.primaryButtonClassNames;

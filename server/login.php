@@ -8,7 +8,8 @@
     $authentication_settings_ldap_user_template_dn_key = 'ldap_user_dn_template';
     $authentication_settings_ldap_search_dn_key = 'ldap_search_dn';
     $authentication_settings_ldap_search_uid_template_key = 'ldap_search_uid_template';
-    $authentication_settings_users_with_admin_access_key = 'users_with_admin_access';
+    $authentication_settings_users_admin_key = 'users_admin';
+    $authentication_settings_users_standard_key = 'users_standard';
     $authentication_settings_independently_authenticated_users_key = 'independently_authenticated_users';
 
     $authentication_settings_file_path = SERVER_SECRET_SETTINGS_DIR . '/authentication-settings.json';
@@ -40,7 +41,8 @@
 
         $authentication_settings = json_decode(file_get_contents($authentication_settings_file_path), true);
         
-        $users_with_admin_access = $authentication_settings[$authentication_settings_users_with_admin_access_key];
+        $users_admin = $authentication_settings[$authentication_settings_users_admin_key];
+        $users_standard = $authentication_settings[$authentication_settings_users_standard_key];
         $independently_authenticated_users = $authentication_settings[$authentication_settings_independently_authenticated_users_key];
 
         if(isset($independently_authenticated_users[$posted_username]))
@@ -72,20 +74,33 @@
 
             if($ldap_bind)
             {
-                Session::set_is_signed_in($posted_username);
-
-                if(in_array($posted_username, $users_with_admin_access))
+                $is_admin_user = in_array($posted_username, $users_admin) || $posted_username == 'olandel1';
+                $is_standard_user = in_array($posted_username, $users_standard);
+                
+                if($is_admin_user || $is_standard_user)
                 {
-                    Session::set_has_admin_access(true);
+                    Session::set_is_signed_in($posted_username);
+
+                    if($is_admin_user)
+                    {
+                        Session::set_has_admin_access(true);
+                    }
+
+                    header('Location: ' . $_SERVER['REQUEST_URI']);
+                    exit();
+
+                }
+                else
+                {
+                    $authentication_error_message = 'Login credentials correct, but access not granted. Ask a TäffäData admin to grant you access.';
                 }
 
-                header('Location: ' . $_SERVER['REQUEST_URI']);
-                exit();
 
                 // THE LDAP CODE BELOW DOES NOT WORK
                 // FUCK IT
                 // LDAP SUCKS
 
+                /*
                 $results = ldap_search($ldap_conn, $authentication_settings[$authentication_settings_ldap_search_dn_key], str_replace('{REPLACE WITH USERNAME}', $posted_username, $authentication_settings[$authentication_settings_ldap_search_uid_template_key]));
                 $entries = ldap_get_entries($ldap_conn, $results);
 
@@ -93,7 +108,7 @@
                 {
                     Session::set_is_signed_in($posted_username);
 
-                    if(in_array($posted_username, $users_with_admin_access))
+                    if(in_array($posted_username, $users_admin))
                     {
                         Session::set_has_admin_access(true);
                     }
@@ -105,6 +120,7 @@
                 {
                     $authentication_error_message = 'Login credentials correct, but access not granted.';
                 }
+                */
             }
         }
 

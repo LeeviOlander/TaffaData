@@ -2,19 +2,31 @@
     "ldap_server_url": "{{ [STRING] URL TO LDAP SERVER }}",
     "ldap_server_port": "{{ [INT] LDAP PORT NUMBER }}",
     "ldap_user_dn_template": "uid={REPLACE WITH USERNAME},ou=People,dc=teknologforeningen,dc=fi",
-    "users_with_admin_access": [
+    "users_standard":
+    [
         "COMMA",
         "SEPARATED",
         "USER",
         "IDS",
         "HERE"
     ],
-    "independently_authenticated_users": {
-        "EXAMPLE-USER": {
+    "users_admin":
+    [
+        "COMMA",
+        "SEPARATED",
+        "USER",
+        "IDS",
+        "HERE"
+    ],
+    "independently_authenticated_users":
+    {
+        "EXAMPLE-USER":
+        {
             "password": "EXAMPLE PASSWORD",
             "admin_access": false
         },
-        "EXAMPLE-USER2": {
+        "EXAMPLE-USER2":
+        {
             "password": "EXAMPLE PASSWORD2",
             "admin_access": false
         }

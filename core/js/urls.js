@@ -28,3 +28,8 @@ Urls.updateDataUrl = 'server/update-data.php';
 Urls.updateDataIfNeededUrl = 'server/update-data-if-needed.php';
 
 Urls.githubRepoUrl = 'https://github.com/LeeviOlander/TaffaData';
+
+Urls.getAdminUsers = 'server/get-admin-users.php';
+Urls.getStandardUsers = 'server/get-standard-users.php';
+Urls.saveAdminUsers = 'server/save-admin-users.php';
+Urls.saveStandardUsers = 'server/save-standard-users.php';

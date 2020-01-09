@@ -13,6 +13,18 @@
                 }
             }
         }   
+
+        public static function check_post_parameters_or_exit($post_parameters, $exit_message = "<p>Invalid post parameters. Exiting. </p>")
+        {
+            foreach($post_parameters as $post_parameter)
+            {
+                if(!isset($_POST[$post_parameter]))
+                {
+                    echo $exit_message;    
+                    exit();
+                }
+            }
+        }   
     }
 
 ?>
